@@ -1,5 +1,8 @@
 package com.myapp.haroon.client;
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -20,6 +23,7 @@ public class GlobalVariable extends Application{
 
     //public JSONObject[] all_day_records;
     public ArrayList<JSONObject> all_date_records = new ArrayList<JSONObject>();
+    public ArrayList<JSONObject> un_upload_records = new ArrayList<JSONObject>();
     //每一筆資料有date, subject_number/name, 幫忙紀錄的admin_number/name(subject自己紀錄則為no_admin)
     //record裡面還包含一個JSONObject，記錄當天的13項symptom
 
@@ -201,4 +205,29 @@ public class GlobalVariable extends Application{
         return login_admin_name;
     }
     public String get_login_admin_number(){ return login_admin_number;}
+
+
+    public boolean haveInternet()
+    {
+        boolean result = false;
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = connManager.getActiveNetworkInfo();
+        if (info == null || !info.isConnected())
+        {
+            result = false;
+        }
+        else
+        {
+            if (!info.isAvailable())
+            {
+                result =false;
+            }
+            else
+            {
+                result = true;
+            }
+        }
+
+        return result;
+    }
 }

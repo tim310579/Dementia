@@ -111,6 +111,18 @@
 
 
             </LinearLayout>
+            <Button
+                android:id="@+id/bn_re_upload_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="-60dp"
+                android:background="@drawable/button_check_history"
+                android:gravity="center"
+                android:text="上傳未上傳資料"
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/hhh"

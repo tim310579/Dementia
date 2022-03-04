@@ -143,10 +143,10 @@ public class Record_overview extends AppCompatActivity {
                 }
                 if (can_save_and_upload == 1) {
                     //TODO
-                    GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                    final GlobalVariable gv = (GlobalVariable) getApplicationContext();
 
                     String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
-                    JSONObject today_record = new JSONObject();
+                    final JSONObject today_record = new JSONObject();
                     //String tmp_symptom_records = ""; //把String[]轉成單一String儲存
                     JSONObject tmp_symptom_records = new JSONObject();; //把String[]轉成單一JSONObject儲存
                     for(int i = 0; i < 13; i++){
@@ -181,12 +181,47 @@ public class Record_overview extends AppCompatActivity {
                     }catch(JSONException e){
                     }
 
-                    gv.all_date_records.add(today_record); //放到存所有日期的Object array
-                    gv.clean_symptom_records();
+                    //gv.all_date_records.add(today_record); //放到存所有日期的Object array
+                    //gv.clean_symptom_records();
 
-                    Intent intent = new Intent();
-                    intent.setClass(Record_overview.this, Save_success.class);
-                    startActivity(intent);
+                    if(!gv.haveInternet()){ //沒網路
+                        final Dialog dialog = new Dialog(Record_overview.this);
+                        dialog.setContentView(R.layout.popup_unsaved_notice);
+
+                        TextView tv_hint_no_net = (TextView) dialog.findViewById((R.id.tv_message));
+                        tv_hint_no_net.setText("目前無網路連線，按下確定會保留紀錄但不會上傳資料，請連接網路後至歷史紀錄頁面更新");
+                        Button bn_back= (Button) dialog.findViewById(R.id.bn_back);
+                        Button bn_check_to_leave = (Button) dialog.findViewById(R.id.bn_check_to_leave);
+                        bn_check_to_leave.setText("確定存檔");
+                        bn_back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        bn_check_to_leave.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                gv.all_date_records.add(today_record); //放到存所有日期的Object array
+                                gv.clean_symptom_records();
+                                gv.un_upload_records.add(today_record); //未上傳record
+                                Intent intent = new Intent();
+                                intent.setClass(Record_overview.this  , Save_success.class);
+                                startActivity(intent);
+                            }
+                        });
+                        dialog.show();
+                    }
+                    else{
+                        gv.all_date_records.add(today_record); //放到存所有日期的Object array
+                        gv.clean_symptom_records();
+
+                        Intent intent = new Intent();
+                        intent.setClass(Record_overview.this, Save_success.class);
+                        startActivity(intent);
+                    }
+
+
                 }
                 else{
                     final Dialog dialog = new Dialog(Record_overview.this);

@@ -30,7 +30,7 @@ import java.util.Date;
 
 public class Check_history extends AppCompatActivity {
     private TextView tv_show_number, tv_show_name, tv_show_time;
-    private Button bn_back_to_login, bn_record_another, bn_logout;
+    private Button bn_back_to_login, bn_record_another, bn_logout, bn_re_upload_record;
     //private CalendarView calendar_view;
     private TextView tv_please_click_date;
 
@@ -71,6 +71,8 @@ public class Check_history extends AppCompatActivity {
         bn_record_another.setOnClickListener(new ButtonClickListener());
         bn_logout = (Button) findViewById(R.id.bn_logout);
         bn_logout.setOnClickListener(new ButtonClickListener());
+        bn_re_upload_record = (Button) findViewById(R.id.bn_re_upload_record);
+        bn_re_upload_record.setOnClickListener(new ButtonClickListener());
 
         bn_days[1] = (Button) findViewById(R.id.bn_day1);
         bn_days[2] = (Button) findViewById(R.id.bn_day2);
@@ -358,6 +360,9 @@ public class Check_history extends AppCompatActivity {
                 case R.id.bn_logout:
                     logout();
                     break;
+                case R.id.bn_re_upload_record:
+                    re_upload_record();
+                    break;
                 default:
                     break;
             }
@@ -366,6 +371,7 @@ public class Check_history extends AppCompatActivity {
     private void goto_login(){new goto_login().start();}
     private void goto_symptom_choose(){new goto_symptom_choose().start();}
     private void logout(){new logout().start();}
+    private void re_upload_record(){new re_upload_record().start();}
 
     class goto_login extends Thread{
         public goto_login(){
@@ -408,6 +414,27 @@ public class Check_history extends AppCompatActivity {
             intent = new Intent();
             intent.setClass(Check_history.this  , MainActivity.class);
             startActivity(intent);
+            //finish();
+        }
+    }
+    class re_upload_record extends Thread{
+        public re_upload_record(){
+        }
+        @Override
+        public void run(){
+            GlobalVariable gv = (GlobalVariable) getApplicationContext();
+            if(gv.un_upload_records.size() > 0){ //有record未上傳
+                //TODO 上傳資料
+                gv.un_upload_records.clear();
+                Intent intent;
+                intent = new Intent();
+                intent.setClass(Check_history.this  , Check_history.class);
+                startActivity(intent);
+            }
+            else{
+                
+            }
+
             //finish();
         }
     }
