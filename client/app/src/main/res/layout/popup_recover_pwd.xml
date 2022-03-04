@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    android:focusable="true"
+    android:background="#3d3d99"
+
+    android:focusableInTouchMode="true">
+
+    <TextView android:id="@+id/tv_ID_or_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="登入帳號(受試者編號或姓名)"
+        android:textColor="#ffffff"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+
+    <EditText
+        android:id="@+id/mEdit_ID_or_name"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="#3d8a99"/>
+    <!--xmlns:android="http://schemas.android.com/apk/res/android">
+    <requestFocus /-->
+    <CheckBox
+        android:id="@+id/chk_recover_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="恢復預設密碼"
+        android:textColor="#ffffff"
+        android:textSize="23dp" />
+    <Button
+        android:id="@+id/bn_check"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-30dp"
+        android:background="@drawable/button_frame"
+        android:text="確定"
+        android:textColor="#000000"
+        android:textSize="30dp" />
+</LinearLayout>

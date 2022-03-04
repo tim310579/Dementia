@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back2"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">>
+
+        <LinearLayout
+            android:id="@+id/titles"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/tv_welcome_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="您現在登入A001-高榮功的帳號"
+                    android:textColor="#ff0000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="現在時間:"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_show_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="2022/01/24 上午10:20"
+                    android:textColor="#ff0000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/hhh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="----------------------------------------------------------------------"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_overview_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="受試者清單"
+                android:textColor="#000000"
+                android:textSize="40dp"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_remind_words"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:text="點選受試者姓名即可進入紀錄畫面\n點選紀錄筆數的數字可以查看歷史紀錄"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+            <!--
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_remind_words_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="點選"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"/>
+                <TextView
+                    android:id="@+id/tv_remind_words_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="受試者姓名"
+                    android:textColor="#8e00ad"
+                    android:textSize="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_remind_words_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="即可進入紀錄畫面"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_remind_words_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="點選紀錄筆數的"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="5dp"/>
+                <TextView
+                    android:id="@+id/tv_remind_words_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="數字"
+                    android:textColor="#0000ff"
+                    android:textSize="20dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_remind_words_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="可以查看歷史紀錄"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="5dp"/>
+            </LinearLayout>
+            -->
+
+
+
+
+            <LinearLayout
+                android:id="@+id/layout_records"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:orientation="vertical"
+                >
+            </LinearLayout>
+
+
+            <TableLayout
+                android:id="@+id/table_subject_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                android:stretchColumns="2"
+
+                >
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+
+                        android:background="@drawable/table_frame"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="編號"
+                        android:textColor="#000000"
+                        android:textSize="17dp"/>
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+
+                        android:background="@drawable/table_frame"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="受試者姓名"
+                        android:textColor="#000000"
+                        android:textSize="17dp"/>
+                    <TextView
+                        android:id="@+id/tv_today_record_cnt"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/table_frame"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="本日記錄筆數"
+                        android:textColor="#000000"
+                        android:textSize="17dp"/>
+
+                </TableRow>
+                </HorizontalScrollView>
+
+            </TableLayout>
+
+            <TableLayout
+                android:id="@+id/table_subject_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                >
+
+            </TableLayout>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+            <TableLayout
+                android:id="@+id/table_subject_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                >
+            </TableLayout>
+            </HorizontalScrollView>
+
+            <Button
+                android:id="@+id/bn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/button_frame"
+                android:text="結束登出"
+                android:textColor="#000000"
+                android:textSize="30dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
