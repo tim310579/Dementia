@@ -1,11 +1,15 @@
 package com.myapp.haroon.client;
 
+
+import static android.provider.Telephony.Mms.Part.CHARSET;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,17 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -26,6 +41,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Record_overview extends AppCompatActivity {
+    //private String postUrl = "http://140.113.86.106:50059/app2web";
+    //private String msg = null;  //存放要Post的訊息
+    //private String result;  //存放Post回傳值
+
+
+    static Handler handler; //宣告成static讓service可以直接使用
+
+
     private TextView tv_all_records;
     private String[] all_symptom_records;
     private TextView tv_show_number, tv_show_name, tv_show_time;
@@ -71,6 +94,7 @@ public class Record_overview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_overview);
+
 
         Arrays.fill(can_modify, 1); // 所有修改鍵可以使用
 
@@ -217,7 +241,7 @@ public class Record_overview extends AppCompatActivity {
                         });
                         dialog.show();
                     }
-                    else{
+                    else{ //要上傳
                         String time_now = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
                         try {
                             today_record.put("save_time", time_now);   //存檔時間
@@ -226,6 +250,59 @@ public class Record_overview extends AppCompatActivity {
                         }
                         gv.all_date_records.add(today_record); //放到存所有日期的Object array
                         gv.clean_symptom_records();
+
+
+                        //
+                        //RequestParams params = new RequestParams();
+
+                        //String postUrl = "http://140.113.86.106:50059/app2web";
+                        String postUrl = "http://google.com";
+
+                        try {
+                            URL url = new URL(postUrl);
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                            conn.setConnectTimeout(5000); // 快取的最長時間
+                            conn.setDoOutput(true);
+                            conn.setDoInput(true);
+                            conn.setUseCaches(false);
+                            conn.setRequestMethod("POST");
+                            //conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                            //conn.setRequestProperty("Charset", CHARSET); // 設定編碼
+                            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");//设置参数类型是json格式
+
+                            //conn.connect();
+                            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                            //OutputStream os = conn.getOutputStream();
+                            //BufferedWriter os = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+
+                            //String content = today_record.toString();
+                            /*
+                            String content = String.valueOf(today_record); //to String
+                            os.writeBytes(content);
+                            os.flush();
+                            os.close();
+                            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
+                                InputStreamReader in = new InputStreamReader(conn.getInputStream());
+                                BufferedReader bf = new BufferedReader(in);
+                                String receiveData = null;
+                                String result = "";
+                                while ((receiveData = bf.readLine()) != null){
+                                    result += receiveData + '\n';
+                                }
+                                in.close();
+                                conn.disconnect();
+                                gv.set_name(result);
+                            }*/
+
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                            gv.set_name(e.toString());
+                        } catch (IOException io) {
+                            io.printStackTrace();
+                            gv.set_name(io.toString());
+                        }
+
 
                         Intent intent = new Intent();
                         intent.setClass(Record_overview.this, Save_success.class);

@@ -3,6 +3,8 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.telecom.Call;
+import android.view.textclassifier.ConversationActions;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -227,7 +229,7 @@ public class GlobalVariable extends Application{
                 result = true;
             }
         }
-
         return result;
     }
+
 }
