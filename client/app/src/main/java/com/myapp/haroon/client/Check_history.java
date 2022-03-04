@@ -425,6 +425,14 @@ public class Check_history extends AppCompatActivity {
             GlobalVariable gv = (GlobalVariable) getApplicationContext();
             if(gv.un_upload_records.size() > 0){ //有record未上傳
                 //TODO 上傳資料
+                for(JSONObject json_obj: gv.un_upload_records){
+                    String time_now = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
+                    try {
+                        json_obj.put("upload_time", time_now); //上傳時間
+                    }catch(JSONException e){
+                    }
+                    gv.all_date_records.add(json_obj);
+                }
                 gv.un_upload_records.clear();
                 Intent intent;
                 intent = new Intent();
@@ -432,7 +440,7 @@ public class Check_history extends AppCompatActivity {
                 startActivity(intent);
             }
             else{
-                
+
             }
 
             //finish();

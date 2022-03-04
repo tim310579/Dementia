@@ -202,9 +202,14 @@ public class Record_overview extends AppCompatActivity {
                         bn_check_to_leave.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                gv.all_date_records.add(today_record); //放到存所有日期的Object array
+                                String time_now = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
+                                try {
+                                    today_record.put("save_time", time_now);
+                                }catch(JSONException e){
+                                }
+                                //gv.all_date_records.add(today_record); //放到存所有日期的Object array
                                 gv.clean_symptom_records();
-                                gv.un_upload_records.add(today_record); //未上傳record
+                                gv.un_upload_records.add(today_record); //未上傳的record
                                 Intent intent = new Intent();
                                 intent.setClass(Record_overview.this  , Save_success.class);
                                 startActivity(intent);
@@ -213,6 +218,12 @@ public class Record_overview extends AppCompatActivity {
                         dialog.show();
                     }
                     else{
+                        String time_now = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
+                        try {
+                            today_record.put("save_time", time_now);   //存檔時間
+                            today_record.put("upload_time", time_now); //上傳時間
+                        }catch(JSONException e){
+                        }
                         gv.all_date_records.add(today_record); //放到存所有日期的Object array
                         gv.clean_symptom_records();
 
