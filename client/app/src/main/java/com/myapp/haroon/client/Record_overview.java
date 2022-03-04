@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +20,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,11 +37,24 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+
 
 public class Record_overview extends AppCompatActivity {
     //private String postUrl = "http://140.113.86.106:50059/app2web";
@@ -256,22 +272,74 @@ public class Record_overview extends AppCompatActivity {
                         //RequestParams params = new RequestParams();
 
                         //String postUrl = "http://140.113.86.106:50059/app2web";
-                        String postUrl = "http://google.com";
+                        String postUrl = "http://httpbin.org/post";
+                        //String postUrl = "https://jsonplaceholder.typicode.com/posts";
 
+                        OkHttpClient client = new OkHttpClient().newBuilder()
+                                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                                .build();
+                        /**設置傳送所需夾帶的內容*/
+                        //FormBody formBody = new FormBody.Builder()
+                          //      .add("userId", "1")
+                            //    .add("id", "1")
+                              //  .add("title", "Test okHttp")
+                                //.build();
+                        /**設置傳送需求*/
+                        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                        RequestBody body = RequestBody.create(JSON, today_record.toString());
+
+                        Request request = new Request.Builder()
+                                .url(postUrl)
+                                .addHeader("Accept-Encoding", "gzip, deflate, br")
+                                .post(body)
+                                .build();
+                        /**設置回傳*/
+                        Call call = client.newCall(request);
+                        call.enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                /**如果傳送過程有發生錯誤*/
+                                gv.set_name(e.getMessage());
+
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                /**取得回傳*/
+
+                                try{
+                                    JSONObject j_obj = new JSONObject(response.body().string());
+                                    gv.set_name("POST回傳：\n" + j_obj.toString());
+                                }catch(JSONException e){
+                                    gv.set_name("POST回傳：\n" + e.toString());
+                                }
+
+                                //String decodeStr = response.body().string();
+                                //gv.set_name("POST回傳：\n" + response.body().string());
+                                //gv.set_name("POST回傳：\n" + decodeStr);
+                            }
+                        });
+
+
+                        /*
                         try {
+
+
                             URL url = new URL(postUrl);
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-                            conn.setConnectTimeout(5000); // 快取的最長時間
+                            //conn.setConnectTimeout(5000); // 快取的最長時間
                             conn.setDoOutput(true);
                             conn.setDoInput(true);
-                            conn.setUseCaches(false);
-                            conn.setRequestMethod("POST");
+                            //conn.setUseCaches(false);
+                            conn.setRequestMethod("GET");
                             //conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
                             //conn.setRequestProperty("Charset", CHARSET); // 設定編碼
-                            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");//设置参数类型是json格式
-
+                            conn.setRequestProperty("Content-Type", "application/json");//设置参数类型是json格式
+                            //gv.set_name(conn.toString());
                             //conn.connect();
+
+
                             DataOutputStream os = new DataOutputStream(conn.getOutputStream());
                             //OutputStream os = conn.getOutputStream();
                             //BufferedWriter os = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
@@ -293,8 +361,7 @@ public class Record_overview extends AppCompatActivity {
                                 in.close();
                                 conn.disconnect();
                                 gv.set_name(result);
-                            }*/
-
+                            }
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
                             gv.set_name(e.toString());
@@ -302,6 +369,9 @@ public class Record_overview extends AppCompatActivity {
                             io.printStackTrace();
                             gv.set_name(io.toString());
                         }
+
+                         */
+
 
 
                         Intent intent = new Intent();
