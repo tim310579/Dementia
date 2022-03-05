@@ -19,14 +19,25 @@ import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class Check_history extends AppCompatActivity {
     private TextView tv_show_number, tv_show_name, tv_show_time;
@@ -275,7 +286,122 @@ public class Check_history extends AppCompatActivity {
                 }
             });
         }
+        bn_re_upload_record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                final GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                if (!gv.haveInternet()) { //沒網路
+                    final Dialog dialog = new Dialog(Check_history.this);
+                    dialog.setContentView(R.layout.popup_unsaved_notice);
+
+                    TextView tv_hint_no_net = (TextView) dialog.findViewById((R.id.tv_message));
+                    tv_hint_no_net.setText("目前無網路連線，請先連接網路後再補上傳資料");
+                    Button bn_back = (Button) dialog.findViewById(R.id.bn_back);
+                    Button bn_check_to_leave = (Button) dialog.findViewById(R.id.bn_check_to_leave);
+                    bn_check_to_leave.setText("我知道了");
+                    bn_back.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    bn_check_to_leave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
+                }
+                else {  //有網路，補上傳record
+                    if (gv.un_upload_records.size() > 0) { //有record未上傳
+                        //TODO 上傳資料
+                        for (JSONObject json_obj : gv.un_upload_records) {
+                            String time_now = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
+                            try {
+                                json_obj.put("upload_time", time_now); //上傳時間
+                            } catch (JSONException e) {
+                            }
+                            gv.all_date_records.add(json_obj);
+
+                            //***********************************上傳到server
+                            String postUrl = "http://140.113.86.106:50059/app2web";
+                            //String postUrl = "http://httpbin.org/post";
+                            //String postUrl = "https://jsonplaceholder.typicode.com/posts";
+
+                            OkHttpClient client = new OkHttpClient().newBuilder()
+                                    .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                                    .build();
+                            /**設置傳送需求*/
+                            MediaType JSON = MediaType.parse("application/json");
+                            RequestBody body = RequestBody.create(JSON, json_obj.toString());
+
+                            Request request = new Request.Builder()
+                                    .url(postUrl)
+                                    .addHeader("Accept-Encoding", "gzip, deflate, br")
+                                    .post(body)
+                                    .build();
+                            /**設置回傳*/
+                            Call call = client.newCall(request);
+                            call.enqueue(new Callback() {
+                                @Override
+                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                    /**如果傳送過程有發生錯誤*/
+                                    //gv.set_name(e.getMessage());
+                                }
+
+                                @Override
+                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                    /**取得回傳*/
+                                /*
+                                try{
+                                    JSONObject j_obj = new JSONObject(response.body().string());
+                                    gv.set_name("POST回傳：\n" + j_obj.toString());
+                                }catch(JSONException e){
+                                    gv.set_name("POST回傳：\n" + e.toString());
+                                }
+                                 */
+                                    //gv.set_name(gv.get_name() + "POST回傳：\n" + response + "_____" + response.body().string());
+                                }
+                            });
+                        }
+                        gv.un_upload_records.clear();
+                        Intent intent;
+                        intent = new Intent();
+                        intent.setClass(Check_history.this, Check_history.class);
+                        startActivity(intent);
+                    }
+                    else { //沒有未上傳資料
+                        final Dialog dialog = new Dialog(Check_history.this);
+                        dialog.setContentView(R.layout.popup_unsaved_notice);
+
+                        TextView tv_hint_no_net = (TextView) dialog.findViewById((R.id.tv_message));
+                        tv_hint_no_net.setText("所有紀錄都已上傳，不用再按了");
+                        Button bn_back = (Button) dialog.findViewById(R.id.bn_back);
+                        Button bn_check_to_leave = (Button) dialog.findViewById(R.id.bn_check_to_leave);
+                        bn_check_to_leave.setText("我知道了");
+                        bn_back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        bn_check_to_leave.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
+
+                    }
+                }
+            }
+        });
+        //finish();
 
 
 
@@ -303,7 +429,6 @@ public class Check_history extends AppCompatActivity {
         mainLinerLayout.addView(bn_daya1);
 
         */
-        //calendar_view = (CalendarView) findViewById(R.id.calendar_view);
         /*RadCalendarView calendarView = new RadCalendarView(this);
 
         calendarView.setCustomizationRule(new Procedure<CalendarCell>() {
@@ -360,9 +485,9 @@ public class Check_history extends AppCompatActivity {
                 case R.id.bn_logout:
                     logout();
                     break;
-                case R.id.bn_re_upload_record:
-                    re_upload_record();
-                    break;
+                //case R.id.bn_re_upload_record:
+                  //  re_upload_record();
+                    //break;
                 default:
                     break;
             }
@@ -371,7 +496,7 @@ public class Check_history extends AppCompatActivity {
     private void goto_login(){new goto_login().start();}
     private void goto_symptom_choose(){new goto_symptom_choose().start();}
     private void logout(){new logout().start();}
-    private void re_upload_record(){new re_upload_record().start();}
+    //private void re_upload_record(){new re_upload_record().start();}
 
     class goto_login extends Thread{
         public goto_login(){
@@ -417,30 +542,98 @@ public class Check_history extends AppCompatActivity {
             //finish();
         }
     }
+
     class re_upload_record extends Thread{
         public re_upload_record(){
         }
         @Override
         public void run(){
-            GlobalVariable gv = (GlobalVariable) getApplicationContext();
-            if(gv.un_upload_records.size() > 0){ //有record未上傳
-                //TODO 上傳資料
-                for(JSONObject json_obj: gv.un_upload_records){
-                    String time_now = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
-                    try {
-                        json_obj.put("upload_time", time_now); //上傳時間
-                    }catch(JSONException e){
-                    }
-                    gv.all_date_records.add(json_obj);
-                }
-                gv.un_upload_records.clear();
-                Intent intent;
-                intent = new Intent();
-                intent.setClass(Check_history.this  , Check_history.class);
-                startActivity(intent);
-            }
-            else{
+            final GlobalVariable gv = (GlobalVariable) getApplicationContext();
+            if(!gv.haveInternet()) { //沒網路
+                final Dialog dialog = new Dialog(Check_history.this);
+                dialog.setContentView(R.layout.popup_unsaved_notice);
 
+                TextView tv_hint_no_net = (TextView) dialog.findViewById((R.id.tv_message));
+                tv_hint_no_net.setText("目前無網路連線，請先連接網路後再補上傳資料");
+                Button bn_back= (Button) dialog.findViewById(R.id.bn_back);
+                Button bn_check_to_leave = (Button) dialog.findViewById(R.id.bn_check_to_leave);
+                bn_check_to_leave.setText("我知道了");
+                bn_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                bn_check_to_leave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+            else {  //有網路，補上傳record
+                if (gv.un_upload_records.size() > 0) { //有record未上傳
+                    //TODO 上傳資料
+                    for (JSONObject json_obj : gv.un_upload_records) {
+                        String time_now = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
+                        try {
+                            json_obj.put("upload_time", time_now); //上傳時間
+                        } catch (JSONException e) {
+                        }
+                        gv.all_date_records.add(json_obj);
+
+                        //***********************************上傳到server
+                        //String postUrl = "http://140.113.86.106:50059/app2web";
+                        String postUrl = "http://httpbin.org/post";
+                        //String postUrl = "https://jsonplaceholder.typicode.com/posts";
+
+                        OkHttpClient client = new OkHttpClient().newBuilder()
+                                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                                .build();
+                        /**設置傳送需求*/
+                        MediaType JSON = MediaType.parse("application/json");
+                        RequestBody body = RequestBody.create(JSON, json_obj.toString());
+
+                        Request request = new Request.Builder()
+                                .url(postUrl)
+                                .addHeader("Accept-Encoding", "gzip, deflate, br")
+                                .post(body)
+                                .build();
+                        /**設置回傳*/
+                        Call call = client.newCall(request);
+                        call.enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                /**如果傳送過程有發生錯誤*/
+                                //gv.set_name(e.getMessage());
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                /**取得回傳*/
+                                /*
+                                try{
+                                    JSONObject j_obj = new JSONObject(response.body().string());
+                                    gv.set_name("POST回傳：\n" + j_obj.toString());
+                                }catch(JSONException e){
+                                    gv.set_name("POST回傳：\n" + e.toString());
+                                }
+                                 */
+                                gv.set_name(gv.get_name() + "POST回傳：\n" + response + "_____" + response.body().string());
+                            }
+                        });
+                    }
+                    gv.un_upload_records.clear();
+                    Intent intent;
+                    intent = new Intent();
+                    intent.setClass(Check_history.this, Check_history.class);
+                    startActivity(intent);
+                }
+                else {
+
+                }
             }
 
             //finish();
