@@ -12,7 +12,7 @@
 
             <Button
                 android:id="@+id/bn_history_cnt_A00x"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:background="@drawable/table_frame"
                 android:gravity="center"

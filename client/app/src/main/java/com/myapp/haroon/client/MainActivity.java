@@ -47,6 +47,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -177,27 +178,29 @@ public class MainActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(mEdit_ID.getText())){ID = mEdit_ID.getText().toString().trim();}// fill in ID
             if (!TextUtils.isEmpty(mEdit_name.getText())){name = mEdit_name.getText().toString().trim();}
 
-            if(ID.equals("") && name.equals("")) {login_fail=1;}
+            if(ID.equals("") && name.equals("")) {login_fail=1;} //都沒填
 
             if (TextUtils.isEmpty(mEdit_password.getText())) {login_fail=1; }// no password
             else {password = mEdit_password.getText().toString().trim();}
 
-            gv.set_ID(ID);
-            gv.set_number(ID);  //ID=number，帳號就是受試者編號
-            gv.set_name(name);
+            //gv.set_ID(ID);
+            //gv.set_number(ID);  //ID=number，帳號就是受試者編號
+            //gv.set_name(name);
             gv.set_password(password);
             //*************************************8
-            login_fail = 0; // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+            //login_fail = 0; // 記得刪除
+            //*************************************8
             if (login_fail == 0){   //can login
                 gv.is_admin = 0;
                 gv.set_admin_name("no_admin");
                 gv.set_admin_ID("no_admin");
                 gv.set_admin_number("no_admin");
 
-                if (ID.equals("")){ gv.set_ID("S001"); } // 之後刪掉
-                if (ID.equals("")){ gv.set_number("S001"); } // 之後刪掉
-                if (name.equals("")) { gv.set_name("王大明"); } // 之後刪掉
+                //if (ID.equals("")){ gv.set_ID("S001"); } // 之後刪掉
+                //if (ID.equals("")){ gv.set_number("S001"); } // 之後刪掉
+                //if (name.equals("")) { gv.set_name("王大明"); } // 之後刪掉
 
+                /*
                 if(gv.get_ID().contains("A00")){ // 包含A00 ->// admin login
                     gv.is_admin = 1;
                     if (name.equals("")) { gv.set_login_admin_name("高榮功"); };
@@ -208,71 +211,106 @@ public class MainActivity extends AppCompatActivity {
                     intent.setClass(MainActivity.this, Subject_list.class);
                     startActivity(intent);
                     //finish();
+                }*/
+
+
+                if(!gv.haveInternet()){ //沒網路
                 }
                 else {
-                    if(!gv.haveInternet()){ //沒網路
-
+                    String postUrl = "http://140.113.86.106:50059/applogin";
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                            .build();
+                    /**設置傳送需求*/
+                    JSONObject j_obj = new JSONObject();
+                    try {
+                        j_obj.put("login_number", ID);
+                        j_obj.put("login_name", name);
+                        j_obj.put("login_password", gv.get_password());
+                    }catch (JSONException e){
                     }
-                    else {
-                        String postUrl = "http://140.113.86.106:50059/web2app";
-                        OkHttpClient client = new OkHttpClient().newBuilder()
-                                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
-                                .build();
-                        /**設置傳送需求*/
-                        JSONObject j_obj = new JSONObject();
-                        try {
-                            j_obj.put("admin_number", gv.get_admin_number());
-                            j_obj.put("subject_number", gv.get_number());
-                            String timeStamp = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
-                            j_obj.put("date", timeStamp);
-                        }catch (JSONException e){
+                    MediaType JSON = MediaType.parse("application/json");
+                    RequestBody body = RequestBody.create(JSON, j_obj.toString());
 
+                    Request request = new Request.Builder()
+                            .url(postUrl)
+                            .addHeader("Accept-Encoding", "gzip, deflate, br")
+                            .post(body)
+                            .build();
+                    /**設置回傳*/
+                    Call call = client.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            /**如果傳送過程有發生錯誤*/
+                            //gv.set_name(e.getMessage());
                         }
-                        MediaType JSON = MediaType.parse("application/json");
-                        RequestBody body = RequestBody.create(JSON, j_obj.toString());
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            /**取得回傳*/
+                            GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                            try{
+                                JSONObject j_obj = new JSONObject(response.body().string());
+                                if(j_obj.getString("status").equals("manage")){
+                                    gv.is_admin = 2; //總管理員
+                                }
+                                else if(j_obj.getString("status").equals("hospital")){
+                                    gv.is_admin = 1;
+                                }
+                                else{
+                                    gv.is_admin = 0;
+                                }
+                                gv.set_login_admin_number(j_obj.getString("admin_number"));
+                                gv.set_login_admin_name(j_obj.getString("admin_name"));
+                                if(gv.is_admin == 0) {
+                                    gv.set_number(j_obj.getString("subject_number"));
+                                    gv.set_name(j_obj.getString("subject_name")+j_obj.getString("status"));
+                                }
+                                else{
+                                    //gv.set_login_admin_number(j_obj.getString("subjects"));
 
-                        Request request = new Request.Builder()
-                                .url(postUrl)
-                                .addHeader("Accept-Encoding", "gzip, deflate, br")
-                                .post(body)
-                                .build();
-                        /**設置回傳*/
-                        Call call = client.newCall(request);
-                        call.enqueue(new Callback() {
-                            @Override
-                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                /**如果傳送過程有發生錯誤*/
-                                //gv.set_name(e.getMessage());
+                                    JSONArray j_obj_p_list = j_obj.getJSONArray("subjects");
+                                    //j_obj_p_list.get(0);
+                                    gv.admin_manage_patient_number.clear();
+                                    gv.admin_manage_patient_name.clear();
+                                    gv.admin_manage_patient_name.add(""); //第一格沒東西
+                                    gv.admin_manage_patient_number.add("");
+
+                                    for(int i = 0; i < j_obj_p_list.length(); i++){
+                                        gv.admin_manage_patient_name.add(j_obj_p_list.getJSONObject(i).getString("subject_name"));
+                                        gv.admin_manage_patient_number.add(j_obj_p_list.getJSONObject(i).getString("subject_number"));
+                                    }
+                                    //gv.set_login_admin_number(j_obj_p_list.get(0).toString());
+                                }
+                            }catch(JSONException e){
+                                gv.set_name("POST回傳error：\n" + e.toString());
                             }
 
-                            @Override
-                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                /**取得回傳*/
-                                /*
-                                try{
-                                    JSONObject j_obj = new JSONObject(response.body().string());
-                                    gv.set_name("POST回傳：\n" + j_obj.toString());
-                                }catch(JSONException e){
-                                    gv.set_name("POST回傳：\n" + e.toString());
-                                }
-                                 */
-                                GlobalVariable gv = (GlobalVariable) getApplicationContext();
-                                //gv.set_name("POST回傳：\n" + response +"_____"+ response.body().string());
+                            if (gv.is_admin == 0){ //病患家屬
                                 Intent intent = new Intent();
                                 intent.setClass(MainActivity.this, Symptom_choose.class);
                                 startActivity(intent);
-
-                                //String decodeStr = response.body().string();
-                                //gv.set_name("POST回傳：\n" + response.body().string());
-                                //gv.set_name("POST回傳：\n" + decodeStr);
                             }
-                        });
-                        //Intent intent = new Intent();
-                        //intent.setClass(MainActivity.this, Symptom_choose.class);
-                        //startActivity(intent);
-                        //finish();
-                    }
+                            else {
+                                Intent intent = new Intent();
+                                intent.setClass(MainActivity.this, Subject_list.class);
+                                startActivity(intent);
+                            }
+                            //gv.set_name("POST回傳：\n" + response +"_____"+ response.body().string());
+                            //Intent intent = new Intent();
+                            //intent.setClass(MainActivity.this, Symptom_choose.class);
+                            //startActivity(intent);
+                            //String decodeStr = response.body().string();
+                            //gv.set_name("POST回傳：\n" + response.body().string());
+                            //gv.set_name("POST回傳：\n" + decodeStr);
+                        }
+                    });
+                    //Intent intent = new Intent();
+                    //intent.setClass(MainActivity.this, Symptom_choose.class);
+                    //startActivity(intent);
+                    //finish();
                 }
+
             }
 
         }

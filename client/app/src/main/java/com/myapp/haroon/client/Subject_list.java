@@ -46,7 +46,7 @@ public class Subject_list extends AppCompatActivity {
     private Button[] bn_subject_name = new Button[6]; //5 subjects(包含一個空格)
     private Button[][] bn_history_cnt = new Button[6][7]; //7 admins
     private int[][] int_history_cnt = new int[6][7]; //7 admins,紀錄本日記錄比數上的紀錄筆數
-
+    private String[][] str_history_cnt = new String[6][7]; //7 admins,紀錄本日記錄比數上的紀錄筆數
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,32 +76,21 @@ public class Subject_list extends AppCompatActivity {
 
         tab = (TableLayout) findViewById(R.id.table_subject_list);
         final View[] view = new View[20]; //長直的
-        final String[] subject_numbers = {"", "S001", "S002", "S003", "S004", "S005"};
-        final String[] subject_names = {"", "王大明", "林大名", "張大名", "謝大名", "陳大名", "吳大名"};
+        //final String[] subject_numbers = {"", "S001", "S002", "S003", "S004", "S005"};
+        //final String[] subject_names = {"", "王大明", "林大名", "張大名", "謝大名", "陳大名", "吳大名"};
 
-        final String[] admin_numbers = {"A001", "A002", "A003", "A004", "A005", "A006", "A007"};
-        final String[] admin_names = {"高榮功", "Vincent", "林孟辰", "Benny", "陳計師", "黃宇", "陳昱銘"};
+        final ArrayList<String> subject_numbers = gv.admin_manage_patient_number;
+        final ArrayList<String> subject_names = gv.admin_manage_patient_name;
+
+        final String[] admin_numbers = {"usr000000", "A002", "A003", "A004", "A005", "A006", "A007"};
+        final String[] admin_names = {"lin", "Vincent", "林孟辰", "Benny", "陳計師", "黃宇", "陳昱銘"};
 
         final View[] view_k = new View[20]; //橫向
         final int admin_number_cnt = 7;
-        String[][] subject_record_cnt = {{"A001", "A002", "A003", "A004", "A005", "A006", "A007"},
-                {"1", "", "", "1", "1", "", "1"},
-                {"1", "", "1", "", "1", "", "1"},
-                {"", "3", "", "", "1", "", "1"},
-                {"1", "3", "", "", "1", "", "1"},
-                {"1", "", "2", "", "", "1", "1"}};
-        //for (JSONObject obj : gv.all_date_records){
-          //  try{
-            //    String tmp_subject_number = obj.getString("subject_number");
-              //  String tmp_admin_number = obj.getString("admin_number");
-            //}catch(JSONException e){
-            //}
-        //}
-        //TextView tv_today_record_cnt = (TextView) findViewById(R.id.tv_today_record_cnt);
-        //tv_today_record_cnt.setWidth(100*admin_number_cnt);
-//放假資料test###############**************-----------------
 
-        if(gv.all_date_records.size() < 6) {
+//放假資料test###############**************-----------------
+/*
+        if(gv.all_date_records.size() < 0) {
             String[] fake_dates = {"2022/02/13", "2022/02/15", "2022/02/16", "2022/02/09", "2022/02/22", "2022/02/21"};
             String[] fake_subject_numbers = {"S002", "S001", "S003", "S004", "S005", "S005"};
             String[] fake_subject_names = {"林大名", "王大明", "張大名", "謝大名", "陳大名", "陳大名"};
@@ -122,6 +111,7 @@ public class Subject_list extends AppCompatActivity {
                 gv.all_date_records.add(today_record); //放到存所有日期的Object array
             }
         }
+ */
         //放假資料test###############**************-----------------
         for(int d = 0; d < int_history_cnt.length; d++){
             Arrays.fill(int_history_cnt[d], 0);
@@ -135,11 +125,13 @@ public class Subject_list extends AppCompatActivity {
                 tmp_admin_number = obj.getString("admin_number");
             }catch(JSONException e){
             }
-            int idx_subject = Arrays.asList(subject_numbers).indexOf(tmp_subject_number);
+            int idx_subject = subject_numbers.indexOf(tmp_subject_number);
+            //int idx_subject = Arrays.asList(subject_numbers).indexOf(tmp_subject_number);
             int idx_admin = Arrays.asList(admin_numbers).indexOf(tmp_admin_number);
             if( idx_subject >= 0 && idx_admin >= 0) {
                 int_history_cnt[idx_subject][idx_admin] += 1;
             }
+            //str_history_cnt[0][0] = tmp_subject_number + tmp_admin_number;
             tmp += Integer.toString(idx_subject) + Integer.toString(idx_admin) + " : ";
             tmp += tmp_subject_number + tmp_admin_number + " : ";
         }
@@ -161,7 +153,7 @@ public class Subject_list extends AppCompatActivity {
 
         gv.set_admin_number(gv.get_login_admin_number());
         gv.set_admin_name(gv.get_login_admin_name());
-        for (int j = 0; j < 6; j++) {
+        for (int j = 0; j < subject_numbers.size(); j++) {
             final int i = j;
 
             LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -171,9 +163,9 @@ public class Subject_list extends AppCompatActivity {
             bn_subject_name[i] = (Button) view[i].findViewById(R.id.bn_subject_name);
 
 
-            tv_subject_number[i].setText(subject_numbers[i]);
-            bn_subject_name[i].setText(subject_names[i]);
-            if(subject_names[i]==""){
+            tv_subject_number[i].setText(subject_numbers.get(i));
+            bn_subject_name[i].setText(subject_names.get(i));
+            if(subject_names.get(i)==""){
                 bn_subject_name[i].setEnabled(false);
             }
             for (int h = 0; h < admin_number_cnt; h++){
@@ -204,8 +196,8 @@ public class Subject_list extends AppCompatActivity {
                     public void onClick(View view_) {
                         //點到該名字，跳出症狀選擇頁面
                         GlobalVariable gv = (GlobalVariable) getApplicationContext();
-                        gv.set_number(subject_numbers[i]);
-                        gv.set_name(subject_names[i]);
+                        gv.set_number(subject_numbers.get(i));
+                        gv.set_name(subject_names.get(i));
                         gv.set_admin_number(admin_numbers[k]);
                         gv.set_admin_name(admin_names[k]);
 
@@ -221,6 +213,7 @@ public class Subject_list extends AppCompatActivity {
                 //}
                 second_layout.addView(view_k[k]);
             }
+            //bn_history_cnt[1][0].setText(str_history_cnt[0][0]);
 
 
             bn_subject_name[i].setOnClickListener(new View.OnClickListener() {
@@ -228,8 +221,8 @@ public class Subject_list extends AppCompatActivity {
                 public void onClick(View view_) {
                     //點到該名字，跳出症狀選擇頁面
                     GlobalVariable gv = (GlobalVariable) getApplicationContext();
-                    gv.set_number(subject_numbers[i]);
-                    gv.set_name(subject_names[i]);
+                    gv.set_number(subject_numbers.get(i));
+                    gv.set_name(subject_names.get(i));
 
                     Intent intent = new Intent();
                     intent.setClass(Subject_list.this, Symptom_choose.class);

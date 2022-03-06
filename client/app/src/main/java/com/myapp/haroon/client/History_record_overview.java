@@ -110,7 +110,7 @@ public class History_record_overview extends AppCompatActivity {
         bn_check_other_history = (Button) findViewById(R.id.bn_check_other_history);
         bn_next_record = (Button) findViewById(R.id.bn_next_record);
         bn_logout = (Button) findViewById(R.id.bn_logout);
-        if(gv.is_admin == 1){ //admin是回到受試者清單
+        if(gv.is_admin > 0){ //admin是回到受試者清單
             bn_logout.setText("回到受試者清單");
         }
 
@@ -150,7 +150,7 @@ public class History_record_overview extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 GlobalVariable gv = (GlobalVariable) getApplicationContext();
-                if (gv.is_admin == 1) {
+                if (gv.is_admin > 0) {
                     Intent intent = new Intent();
                     intent.setClass(History_record_overview.this, Subject_list.class);
                     startActivity(intent);

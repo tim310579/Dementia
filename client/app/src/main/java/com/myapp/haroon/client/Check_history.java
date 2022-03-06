@@ -75,7 +75,7 @@ public class Check_history extends AppCompatActivity {
 
         bn_back_to_login = (Button) findViewById(R.id.bn_back_to_login);
         bn_back_to_login.setOnClickListener(new ButtonClickListener());
-        if(gv.is_admin == 1){
+        if(gv.is_admin > 0){
             bn_back_to_login.setText("回受試者清單");
         }
 
@@ -572,7 +572,7 @@ public class Check_history extends AppCompatActivity {
         @Override
         public void run(){
             GlobalVariable gv = (GlobalVariable) getApplicationContext();
-            if (gv.is_admin == 1) {
+            if (gv.is_admin > 0) {
                 Intent intent = new Intent();
                 intent.setClass(Check_history.this, Subject_list.class);
                 startActivity(intent);

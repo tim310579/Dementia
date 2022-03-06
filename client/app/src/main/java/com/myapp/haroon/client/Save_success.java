@@ -40,7 +40,7 @@ public class Save_success extends AppCompatActivity {
         bn_logout = (Button) findViewById(R.id.bn_logout);
         bn_logout.setOnClickListener(new ButtonClickListener());
 
-        if(gv.is_admin == 1){ //admin是回到受試者清單
+        if(gv.is_admin > 0){ //admin是回到受試者清單
             bn_logout.setText("回到受試者清單");
         }
 
@@ -98,7 +98,7 @@ public class Save_success extends AppCompatActivity {
         @Override
         public void run(){
             GlobalVariable gv = (GlobalVariable) getApplicationContext();
-            if (gv.is_admin == 1) {
+            if (gv.is_admin > 0) {
                 Intent intent = new Intent();
                 intent.setClass(Save_success.this, Subject_list.class);
                 startActivity(intent);

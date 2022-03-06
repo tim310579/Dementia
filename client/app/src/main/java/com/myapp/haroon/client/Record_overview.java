@@ -208,7 +208,7 @@ public class Record_overview extends AppCompatActivity {
                         today_record.put("subject_number", gv.get_number());
                         today_record.put("subject_name", gv.get_name());
                         //紀錄admin number, name
-                        if(gv.is_admin == 1){
+                        if(gv.is_admin > 0){
                             today_record.put("admin_number", gv.get_login_admin_number());
                             today_record.put("admin_name", gv.get_login_admin_name());
                         }

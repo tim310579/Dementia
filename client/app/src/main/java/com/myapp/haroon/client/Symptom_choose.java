@@ -170,7 +170,7 @@ public class Symptom_choose extends AppCompatActivity {
         @Override
         public void run(){
             GlobalVariable gv = (GlobalVariable) getApplicationContext();
-            if(gv.is_admin == 1) { //admin, 回受試者清單
+            if(gv.is_admin > 0) { //admin or 工作人員, 回受試者清單
                 Intent intent;
                 intent = new Intent();
                 intent.setClass(Symptom_choose.this  , Subject_list.class);

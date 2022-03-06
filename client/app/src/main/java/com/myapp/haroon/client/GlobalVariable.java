@@ -44,7 +44,8 @@ public class GlobalVariable extends Application{
     private String admin_ID, admin_name;
     private String admin_number;
 
-    private ArrayList<String> admin_manage_patient_number = new ArrayList<String>(); //
+    public ArrayList<String> admin_manage_patient_number = new ArrayList<String>(); //
+    public ArrayList<String> admin_manage_patient_name = new ArrayList<String>(); //
 
 
     public int is_admin = 0;
