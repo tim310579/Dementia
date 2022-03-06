@@ -257,7 +257,7 @@ public class Record_overview extends AppCompatActivity {
                         });
                         dialog.show();
                     }
-                    else{ //要上傳
+                    else{ //有網路，要上傳
                         String time_now = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
                         try {
                             today_record.put("save_time", time_now);   //存檔時間

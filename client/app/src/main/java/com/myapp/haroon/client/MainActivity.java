@@ -40,8 +40,24 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.widget.Toast;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -174,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
             login_fail = 0; // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
             if (login_fail == 0){   //can login
                 gv.is_admin = 0;
-                gv.set_admin_name("");
-                gv.set_admin_ID("");
-                gv.set_admin_number("");
+                gv.set_admin_name("no_admin");
+                gv.set_admin_ID("no_admin");
+                gv.set_admin_number("no_admin");
 
                 if (ID.equals("")){ gv.set_ID("S001"); } // 之後刪掉
                 if (ID.equals("")){ gv.set_number("S001"); } // 之後刪掉
@@ -194,10 +210,68 @@ public class MainActivity extends AppCompatActivity {
                     //finish();
                 }
                 else {
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, Symptom_choose.class);
-                    startActivity(intent);
-                    //finish();
+                    if(!gv.haveInternet()){ //沒網路
+
+                    }
+                    else {
+                        String postUrl = "http://140.113.86.106:50059/web2app";
+                        OkHttpClient client = new OkHttpClient().newBuilder()
+                                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                                .build();
+                        /**設置傳送需求*/
+                        JSONObject j_obj = new JSONObject();
+                        try {
+                            j_obj.put("admin_number", gv.get_admin_number());
+                            j_obj.put("subject_number", gv.get_number());
+                            String timeStamp = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
+                            j_obj.put("date", timeStamp);
+                        }catch (JSONException e){
+
+                        }
+                        MediaType JSON = MediaType.parse("application/json");
+                        RequestBody body = RequestBody.create(JSON, j_obj.toString());
+
+                        Request request = new Request.Builder()
+                                .url(postUrl)
+                                .addHeader("Accept-Encoding", "gzip, deflate, br")
+                                .post(body)
+                                .build();
+                        /**設置回傳*/
+                        Call call = client.newCall(request);
+                        call.enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                /**如果傳送過程有發生錯誤*/
+                                //gv.set_name(e.getMessage());
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                /**取得回傳*/
+                                /*
+                                try{
+                                    JSONObject j_obj = new JSONObject(response.body().string());
+                                    gv.set_name("POST回傳：\n" + j_obj.toString());
+                                }catch(JSONException e){
+                                    gv.set_name("POST回傳：\n" + e.toString());
+                                }
+                                 */
+                                GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                                //gv.set_name("POST回傳：\n" + response +"_____"+ response.body().string());
+                                Intent intent = new Intent();
+                                intent.setClass(MainActivity.this, Symptom_choose.class);
+                                startActivity(intent);
+
+                                //String decodeStr = response.body().string();
+                                //gv.set_name("POST回傳：\n" + response.body().string());
+                                //gv.set_name("POST回傳：\n" + decodeStr);
+                            }
+                        });
+                        //Intent intent = new Intent();
+                        //intent.setClass(MainActivity.this, Symptom_choose.class);
+                        //startActivity(intent);
+                        //finish();
+                    }
                 }
             }
 

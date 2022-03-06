@@ -42,6 +42,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class Check_history extends AppCompatActivity {
     private TextView tv_show_number, tv_show_name, tv_show_time;
     private Button bn_back_to_login, bn_record_another, bn_logout, bn_re_upload_record;
+    private Button bn_test;
     //private CalendarView calendar_view;
     private TextView tv_please_click_date;
 
@@ -84,6 +85,8 @@ public class Check_history extends AppCompatActivity {
         bn_logout.setOnClickListener(new ButtonClickListener());
         bn_re_upload_record = (Button) findViewById(R.id.bn_re_upload_record);
         bn_re_upload_record.setOnClickListener(new ButtonClickListener());
+        bn_test = (Button) findViewById(R.id.bn_test);
+        bn_test.setOnClickListener(new ButtonClickListener());
 
         bn_days[1] = (Button) findViewById(R.id.bn_day1);
         bn_days[2] = (Button) findViewById(R.id.bn_day2);
@@ -398,6 +401,71 @@ public class Check_history extends AppCompatActivity {
                         dialog.show();
 
                     }
+                }
+            }
+        });
+        bn_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                if(!gv.haveInternet()){ //沒網路
+
+                }
+                else {
+                    String postUrl = "http://140.113.86.106:50059/web2app";
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                            .build();
+                    /**設置傳送需求*/
+                    JSONObject j_obj = new JSONObject();
+                    try {
+                        j_obj.put("admin_number", gv.get_admin_number());
+                        j_obj.put("subject_number", gv.get_number());
+                        String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                        j_obj.put("date", timeStamp);
+                    } catch (JSONException e) {
+
+                    }
+                    MediaType JSON = MediaType.parse("application/json");
+                    RequestBody body = RequestBody.create(JSON, j_obj.toString());
+
+                    Request request = new Request.Builder()
+                            .url(postUrl)
+                            .addHeader("Accept-Encoding", "gzip, deflate, br")
+                            .post(body)
+                            .build();
+                    /**設置回傳*/
+                    Call call = client.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            /**如果傳送過程有發生錯誤*/
+                            //gv.set_name(e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            /**取得回傳*/
+
+                                try{
+                                    JSONObject j_obj = new JSONObject(response.body().string());
+                                    gv.set_name("POST回傳：\n" + j_obj.toString());
+                                    //gv.set_name("POST回傳：\n" + j_obj.getString("records"));
+                                }catch(JSONException e){
+                                    gv.set_name("POST回傳：\n" + e.toString());
+                                }
+
+                            GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                            //gv.set_name("POST回傳：\n" + response +"_____"+ response.body().string());
+                            Intent intent = new Intent();
+                            intent.setClass(Check_history.this, Check_history.class);
+                            startActivity(intent);
+
+                            //String decodeStr = response.body().string();
+                            //gv.set_name("POST回傳：\n" + response.body().string());
+                            //gv.set_name("POST回傳：\n" + decodeStr);
+                        }
+                    });
                 }
             }
         });
