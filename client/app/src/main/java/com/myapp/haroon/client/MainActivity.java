@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                         j_obj.put("login_password", gv.get_password());
                     }catch (JSONException e){
                     }
-                    MediaType JSON = MediaType.parse("application/json");
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     RequestBody body = RequestBody.create(JSON, j_obj.toString());
 
                     Request request = new Request.Builder()
@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                                 gv.set_login_admin_name(j_obj.getString("admin_name"));
                                 if(gv.is_admin == 0) {
                                     gv.set_number(j_obj.getString("subject_number"));
-                                    gv.set_name(j_obj.getString("subject_name")+j_obj.getString("status"));
+                                    gv.set_name(j_obj.getString("subject_name"));
                                 }
                                 else{
                                     //gv.set_login_admin_number(j_obj.getString("subjects"));
@@ -288,7 +288,8 @@ public class MainActivity extends AppCompatActivity {
 
                             if (gv.is_admin == 0){ //病患家屬
                                 Intent intent = new Intent();
-                                intent.setClass(MainActivity.this, Symptom_choose.class);
+                                //intent.setClass(MainActivity.this, Symptom_choose.class);
+                                intent.setClass(MainActivity.this, home.class);
                                 startActivity(intent);
                             }
                             else {

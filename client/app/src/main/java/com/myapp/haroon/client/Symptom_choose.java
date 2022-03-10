@@ -179,7 +179,8 @@ public class Symptom_choose extends AppCompatActivity {
             else {
                 Intent intent;
                 intent = new Intent();
-                intent.setClass(Symptom_choose.this, MainActivity.class);
+                //intent.setClass(Symptom_choose.this, MainActivity.class);
+                intent.setClass(Symptom_choose.this, home.class);
                 startActivity(intent);
             }
             //finish();

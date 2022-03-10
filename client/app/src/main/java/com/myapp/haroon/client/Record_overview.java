@@ -279,7 +279,7 @@ public class Record_overview extends AppCompatActivity {
                                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                                 .build();
                         /**設置傳送需求*/
-                        MediaType JSON = MediaType.parse("application/json");
+                        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                         RequestBody body = RequestBody.create(JSON, today_record.toString());
 
                         Request request = new Request.Builder()

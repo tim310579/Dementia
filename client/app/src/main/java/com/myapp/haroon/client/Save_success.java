@@ -3,6 +3,7 @@ package com.myapp.haroon.client;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +44,9 @@ public class Save_success extends AppCompatActivity {
         if(gv.is_admin > 0){ //admin是回到受試者清單
             bn_logout.setText("回到受試者清單");
         }
-
+        else{
+            bn_logout.setText("回主畫面");
+        }
     }
     class ButtonClickListener implements View.OnClickListener {
         @Override
@@ -106,7 +109,8 @@ public class Save_success extends AppCompatActivity {
             else {
                 Intent intent;
                 intent = new Intent();
-                intent.setClass(Save_success.this, MainActivity.class);
+                //intent.setClass(Save_success.this, MainActivity.class);
+                intent.setClass(Save_success.this, home.class);
                 startActivity(intent);
             }
             //finish();

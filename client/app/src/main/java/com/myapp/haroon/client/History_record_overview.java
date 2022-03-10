@@ -113,6 +113,9 @@ public class History_record_overview extends AppCompatActivity {
         if(gv.is_admin > 0){ //admin是回到受試者清單
             bn_logout.setText("回到受試者清單");
         }
+        else{
+            bn_logout.setText("回主畫面");
+        }
 
         bn_check_other_history.setOnClickListener(new View.OnClickListener() {
             @Override

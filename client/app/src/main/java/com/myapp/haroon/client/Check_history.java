@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,6 +78,9 @@ public class Check_history extends AppCompatActivity {
         bn_back_to_login.setOnClickListener(new ButtonClickListener());
         if(gv.is_admin > 0){
             bn_back_to_login.setText("回受試者清單");
+        }
+        else{
+            bn_back_to_login.setText("回主畫面");
         }
 
         bn_record_another = (Button) findViewById(R.id.bn_record_another);
@@ -407,16 +411,18 @@ public class Check_history extends AppCompatActivity {
         bn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //final GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                //gv.web_to_app();
+
                 final GlobalVariable gv = (GlobalVariable) getApplicationContext();
                 if(!gv.haveInternet()){ //沒網路
-
                 }
                 else {
                     String postUrl = "http://140.113.86.106:50059/web2app";
                     OkHttpClient client = new OkHttpClient().newBuilder()
                             .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                             .build();
-                    /**設置傳送需求*/
+                    //設置傳送需求
                     JSONObject j_obj = new JSONObject();
                     try {
                         j_obj.put("admin_number", gv.get_admin_number());
@@ -434,23 +440,26 @@ public class Check_history extends AppCompatActivity {
                             .addHeader("Accept-Encoding", "gzip, deflate, br")
                             .post(body)
                             .build();
-                    /**設置回傳*/
+                    //設置回傳
                     Call call = client.newCall(request);
                     call.enqueue(new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            /**如果傳送過程有發生錯誤*/
+                            //如果傳送過程有發生錯誤
                             //gv.set_name(e.getMessage());
                         }
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            /**取得回傳*/
+                            //取得回傳
 
                                 try{
                                     JSONObject j_obj = new JSONObject(response.body().string());
-                                    gv.set_name("POST回傳：\n" + j_obj.toString());
-                                    //gv.set_name("POST回傳：\n" + j_obj.getString("records"));
+                                    //JSONObject j_arr = new JSONObject(j_obj.getJSONObject("records"));
+                                    //gv.set_name("POST回傳：\n" +j_arr);
+                                    gv.set_name("POST回傳：\n" + j_obj.getString("records") + "\n" + j_obj.getString("records").getClass().getSimpleName());
+                                    gv.set_number(Integer.toString(j_obj.getJSONArray("records").length()));
+                                    //j_obj.getJSONArray("records").length();
                                 }catch(JSONException e){
                                     gv.set_name("POST回傳：\n" + e.toString());
                                 }
@@ -580,7 +589,8 @@ public class Check_history extends AppCompatActivity {
             else {
                 Intent intent;
                 intent = new Intent();
-                intent.setClass(Check_history.this, MainActivity.class);
+                //intent.setClass(Check_history.this, MainActivity.class);
+                intent.setClass(Check_history.this, home.class);
                 startActivity(intent);
             }
             //finish();
