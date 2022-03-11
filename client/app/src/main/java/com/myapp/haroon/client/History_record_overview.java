@@ -169,20 +169,26 @@ public class History_record_overview extends AppCompatActivity {
 
 
         //tv_time_2.setText(history_record + Integer.toString(tokens.length));
-        /*
+
         LinearLayout mainLinerLayout = (LinearLayout) findViewById(R.id.layout_records_history);
         //LinearLayout every_record_layout = (LinearLayout) findViewById(R.id.layout_every_record);
         final View[] view = new View[13];
 
         //String tmpp = "ooo";
         //if(tokens.length==13) {
+        //for (int j = 0; j < 12; j++){
+         //   if(!tokens[j].equals("none")) { //該symptom有紀錄
+          //      tv_time_2.setText(tv_time_2.getText() + tokens[j]);
+          //  }
+        //}
+        //has_record = 0;
         if (has_record == 1){
             for (int j = 0; j < 12; j++) { //跌倒另外處理
                 final int i = j;
                 //if (tokens[i] != null) { //有紀錄，開始顯示
                 //if(!tokens[i].isEmpty()){
                 //if( tokens[i].contains("___")){ //有___表示該項symptom有記錄到
-                if(tokens[i] != "none"){ //該symptom有紀錄
+                if(!tokens[j].equals("none")){ //該symptom有紀錄
                     //tmpp += "k";
                     LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     view[i] = inflater.inflate(R.layout.every_history_record_overview , null, true); //讀取的page2.
@@ -252,7 +258,6 @@ public class History_record_overview extends AppCompatActivity {
                 mainLinerLayout.addView(view[k]); //加入畫面上
             }
         }
-        
-         */
+
     }
 }

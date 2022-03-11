@@ -124,7 +124,7 @@ public class home extends AppCompatActivity {
                         //gv.set_name("POST回傳：\n" +j_obj.toString());
                         //gv.set_name("POST回傳：\n" + j_obj.getString("records") + "\n" + j_obj.getString("records").getClass().getSimpleName());
                         //gv.set_number(Integer.toString(j_obj.getJSONArray("records").length()));
-                        bn_cnt_today.setText(Integer.toString(j_obj.getJSONArray("records").length()));
+                        //bn_cnt_today.setText(Integer.toString(j_obj.getJSONArray("records").length()));
 
                         for(int i = 0; i < j_obj.getJSONArray("records").length(); i++){
                             JSONObject j_origin = j_obj.getJSONArray("records").getJSONObject(i);
@@ -133,6 +133,7 @@ public class home extends AppCompatActivity {
                             j_tmp.put("record", j_origin.getJSONObject("content"));
                             j_tmp.put("admin_number", j_origin.getString("admin_id"));
                             j_tmp.put("subject_number", j_origin.getString("patient_id"));
+                            //改***************************************
                             j_tmp.put("subject_name", "林依二");
                             if(j_origin.getString("admin_id").equals("no_admin")){
                                 j_tmp.put("admin_name","no_admin");
@@ -140,8 +141,14 @@ public class home extends AppCompatActivity {
                             else {
                                 j_tmp.put("admin_name", "chen");
                             }
+                            //*******************************
+                            String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                            if(j_origin.getString("date").equals(timeStamp)){ //當天的
+                                today_rec_cnt[0] += 1;
+                            }
                             gv.all_date_records.add(j_tmp);
                         }
+                        bn_cnt_today.setText(Integer.toString(today_rec_cnt[0]));
                         //for(JSONObject j_ob : gv.all_date_records){
                          //   try{
                         //        tv_welcome_msg.setText(j_ob.getString("_id").toString());

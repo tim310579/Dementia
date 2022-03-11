@@ -287,6 +287,12 @@ public class MainActivity extends AppCompatActivity {
                                         gv.admin_manage_patient_name.add(j_obj_p_list.getJSONObject(i).getString("subject_name"));
                                         gv.admin_manage_patient_number.add(j_obj_p_list.getJSONObject(i).getString("subject_number"));
                                     }
+                                    gv.admin_manage_admin_number.clear();
+                                    gv.admin_manage_admin_name.clear();
+                                    gv.admin_manage_admin_number.add("usr000000");
+                                    gv.admin_manage_admin_name.add("lin");
+                                    gv.admin_manage_admin_number.add("usrtest");
+                                    gv.admin_manage_admin_name.add("linhah");
                                     //gv.set_login_admin_number(j_obj_p_list.get(0).toString());
                                 }
                             }catch(JSONException e){

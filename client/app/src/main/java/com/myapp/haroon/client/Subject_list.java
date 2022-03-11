@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,14 +20,25 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class Subject_list extends AppCompatActivity {
 
@@ -53,7 +65,7 @@ public class Subject_list extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_list);
 
-        GlobalVariable gv = (GlobalVariable) getApplicationContext();
+        final GlobalVariable gv = (GlobalVariable) getApplicationContext();
 
         tv_welcome_msg = (TextView) findViewById(R.id.tv_welcome_msg);
         tv_show_time = (TextView) findViewById(R.id.tv_show_time);
@@ -82,8 +94,11 @@ public class Subject_list extends AppCompatActivity {
         final ArrayList<String> subject_numbers = gv.admin_manage_patient_number;
         final ArrayList<String> subject_names = gv.admin_manage_patient_name;
 
-        final String[] admin_numbers = {"usr000000", "A002", "A003", "A004", "A005", "A006", "A007"};
-        final String[] admin_names = {"lin", "Vincent", "林孟辰", "Benny", "陳計師", "黃宇", "陳昱銘"};
+        final ArrayList<String> admin_numbers = gv.admin_manage_admin_number;
+        final ArrayList<String> admin_names = gv.admin_manage_admin_name;
+
+        //final String[] admin_numbers = {"usr000000", "A002", "A003", "A004", "A005", "A006", "A007"};
+        //final String[] admin_names = {"lin", "Vincent", "林孟辰", "Benny", "陳計師", "黃宇", "陳昱銘"};
 
         final View[] view_k = new View[20]; //橫向
         final int admin_number_cnt = 7;
@@ -113,11 +128,112 @@ public class Subject_list extends AppCompatActivity {
         }
  */
         //放假資料test###############**************-----------------
+        //先從server要資料
+        if(!gv.haveInternet()){ //沒網路
+
+        }
+        else {
+            gv.all_date_records.clear();
+            //for(String subject_i : subject_numbers) { //該病患對應該admin的record
+            for(int l = 1 ; l < subject_numbers.size(); l++){
+                String subject_i = subject_numbers.get(l);
+                for(String admin_j : admin_numbers) {
+                    //tv_welcome_msg.setText(subject_i+admin_j);
+                    String postUrl = "http://140.113.86.106:50059/web2app";
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                            .build();
+                    //設置傳送需求
+                    final JSONObject j_obj = new JSONObject();
+                    try {
+                        j_obj.put("admin_number", admin_j);
+                        j_obj.put("subject_number", subject_i);
+                        timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                        j_obj.put("date", timeStamp);
+                    } catch (JSONException e) {
+
+                    }
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                    RequestBody body = RequestBody.create(JSON, j_obj.toString());
+
+                    Request request = new Request.Builder()
+                            .url(postUrl)
+                            .addHeader("Accept-Encoding", "gzip, deflate, br")
+                            .post(body)
+                            .build();
+                    //設置回傳
+                    Call call = client.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            //如果傳送過程有發生錯誤
+                            //gv.set_name(e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            //取得回傳
+
+                            try{
+                                JSONObject j_obj = new JSONObject(response.body().string());
+                                //JSONObject j_arr = new JSONObject(j_obj.getJSONObject("records"));
+                                //gv.set_name("POST回傳：\n" +j_obj.getJSONArray("records").getJSONObject(0).toString());
+                                //gv.set_name("POST回傳：\n" + j_obj.getString("records") + "\n" + j_obj.getString("records").getClass().getSimpleName());
+                                //gv.set_number(Integer.toString(j_obj.getJSONArray("records").length()));
+                                //j_obj.getJSONArray("records").length();
+                                //gv.set_name(j_obj.toString());
+                                for(int i = 0; i < j_obj.getJSONArray("records").length(); i++) {
+                                    JSONObject j_origin = j_obj.getJSONArray("records").getJSONObject(i);
+                                    JSONObject j_tmp = new JSONObject();
+                                    j_tmp.put("date", j_origin.getString("date"));
+                                    j_tmp.put("record", j_origin.getJSONObject("content"));
+                                    j_tmp.put("admin_number", j_origin.getString("admin_id"));
+                                    j_tmp.put("subject_number", j_origin.getString("patient_id"));
+                                    //改***************************************
+                                    j_tmp.put("subject_name", "林依二");
+                                    if (j_origin.getString("admin_id").equals("no_admin")) {
+                                        j_tmp.put("admin_name", "no_admin");
+                                    } else {
+                                        j_tmp.put("admin_name", "chen");
+                                    }
+                                    gv.all_date_records.add(j_tmp);
+                                }
+                            }catch(JSONException e){
+                                //gv.set_name("POST回傳err：\n" + e.toString());
+                            }
+                            //tv_welcome_msg.setText(gv.all_date_records.toString());
+
+
+                            //gv.all_date_records.add(j_obj);
+
+
+
+                            //String decodeStr = response.body().string();
+                            //gv.set_name("POST回傳：\n" + response.body().string());
+                            //gv.set_name("POST回傳：\n" + decodeStr);
+                        }
+                    });
+                }
+            }
+            //gv.set_name(gv.all_date_records.toString());
+            //gv.set_number(Integer.toString(gv.all_date_records.size()));
+            Intent intent = new Intent();
+            intent.setClass(Subject_list.this, Save_success.class);
+            startActivity(intent);
+        }
+        //Handler handler = new Handler();
+        //handler.postDelayed(new Runnable() {
+         //   public void run() {
+        //        // yourMethod();
+        //    }
+       // }, 3000);   //5 seconds
+        //tv_welcome_msg.setText(gv.all_date_records.toString());
+
         for(int d = 0; d < int_history_cnt.length; d++){
             Arrays.fill(int_history_cnt[d], 0);
         }
         //Arrays.fill(int_history_cnt, 0);
-        String tmp = "";
+        //String tmp = "";
         for (JSONObject obj : gv.all_date_records){
             String tmp_subject_number="none", tmp_admin_number="none";
             try{
@@ -126,14 +242,15 @@ public class Subject_list extends AppCompatActivity {
             }catch(JSONException e){
             }
             int idx_subject = subject_numbers.indexOf(tmp_subject_number);
+            int idx_admin = admin_numbers.indexOf(tmp_admin_number);
             //int idx_subject = Arrays.asList(subject_numbers).indexOf(tmp_subject_number);
-            int idx_admin = Arrays.asList(admin_numbers).indexOf(tmp_admin_number);
+            //int idx_admin = Arrays.asList(admin_numbers).indexOf(tmp_admin_number);
             if( idx_subject >= 0 && idx_admin >= 0) {
                 int_history_cnt[idx_subject][idx_admin] += 1;
             }
             //str_history_cnt[0][0] = tmp_subject_number + tmp_admin_number;
-            tmp += Integer.toString(idx_subject) + Integer.toString(idx_admin) + " : ";
-            tmp += tmp_subject_number + tmp_admin_number + " : ";
+            //tmp += Integer.toString(idx_subject) + Integer.toString(idx_admin) + " : ";
+            //tmp += tmp_subject_number + tmp_admin_number + " : ";
         }
         //tv_show_time.setText(tmp);
 
@@ -165,10 +282,10 @@ public class Subject_list extends AppCompatActivity {
 
             tv_subject_number[i].setText(subject_numbers.get(i));
             bn_subject_name[i].setText(subject_names.get(i));
-            if(subject_names.get(i)==""){
+            if(subject_names.get(i).equals("")){
                 bn_subject_name[i].setEnabled(false);
             }
-            for (int h = 0; h < admin_number_cnt; h++){
+            for (int h = 0; h < admin_numbers.size(); h++){
                 final int k = h;
                 LinearLayout second_layout = (LinearLayout) view[i].findViewById(R.id.history_cnt_buttons);
                 view_k[k] = inflater.inflate(R.layout.every_subject_history_cnt_button , null, true); //
@@ -178,7 +295,7 @@ public class Subject_list extends AppCompatActivity {
                 if(i == 0){
                     bn_history_cnt[i][k].setTextColor(Color.rgb(0, 0, 0)); //black
                     bn_history_cnt[i][k].setEnabled(false);
-                    bn_history_cnt[i][k].setText(admin_numbers[k]);
+                    bn_history_cnt[i][k].setText(admin_numbers.get(k));
                 }
                 else {
 
@@ -198,8 +315,8 @@ public class Subject_list extends AppCompatActivity {
                         GlobalVariable gv = (GlobalVariable) getApplicationContext();
                         gv.set_number(subject_numbers.get(i));
                         gv.set_name(subject_names.get(i));
-                        gv.set_admin_number(admin_numbers[k]);
-                        gv.set_admin_name(admin_names[k]);
+                        gv.set_admin_number(admin_numbers.get(k));
+                        gv.set_admin_name(admin_names.get(k));
 
                         Intent intent = new Intent();
                         intent.setClass(Subject_list.this, Check_history.class);
@@ -232,6 +349,8 @@ public class Subject_list extends AppCompatActivity {
 
             tab.addView(view[i]);
         }
+
+        bn_history_cnt[1][0].setText(Integer.toString(gv.all_date_records.size()));
 
 
         //tv_today_record_cnt.setWidth(bn_history_cnt[0][0].getMeasuredWidth()*admin_number_cnt);

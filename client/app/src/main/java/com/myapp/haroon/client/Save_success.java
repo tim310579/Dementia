@@ -30,6 +30,7 @@ public class Save_success extends AppCompatActivity {
 
         tv_show_number.setText(gv.get_number());
         tv_show_name.setText(gv.get_name());
+
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
         //System.out.println(timeStamp);
         tv_show_time.setText(timeStamp);

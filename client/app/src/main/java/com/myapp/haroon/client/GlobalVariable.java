@@ -62,6 +62,8 @@ public class GlobalVariable extends Application{
     public ArrayList<String> admin_manage_patient_number = new ArrayList<String>(); //
     public ArrayList<String> admin_manage_patient_name = new ArrayList<String>(); //
 
+    public ArrayList<String> admin_manage_admin_number = new ArrayList<String>(); //
+    public ArrayList<String> admin_manage_admin_name = new ArrayList<String>(); //
 
     public int is_admin = 0;
 
