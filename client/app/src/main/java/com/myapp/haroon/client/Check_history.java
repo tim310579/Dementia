@@ -287,6 +287,8 @@ public class Check_history extends AppCompatActivity {
                     gv.set_history_cnt_record(cnt_records);
                     gv.set_now_in_history_cnt_record(0); //從第0筆開始看
 
+                    //gv.set_name(gv.history_record.get(gv.history_record.size()-1).toString());
+
                     Intent intent = new Intent();
                     intent.setClass(Check_history.this, History_record_overview.class);
                     startActivity(intent);
@@ -425,14 +427,14 @@ public class Check_history extends AppCompatActivity {
                     //設置傳送需求
                     JSONObject j_obj = new JSONObject();
                     try {
-                        j_obj.put("admin_number", gv.get_admin_number());
+                        j_obj.put("admin_number", gv.get_login_admin_number());
                         j_obj.put("subject_number", gv.get_number());
                         String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
                         j_obj.put("date", timeStamp);
                     } catch (JSONException e) {
 
                     }
-                    MediaType JSON = MediaType.parse("application/json");
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     RequestBody body = RequestBody.create(JSON, j_obj.toString());
 
                     Request request = new Request.Builder()
@@ -456,12 +458,12 @@ public class Check_history extends AppCompatActivity {
                                 try{
                                     JSONObject j_obj = new JSONObject(response.body().string());
                                     //JSONObject j_arr = new JSONObject(j_obj.getJSONObject("records"));
-                                    //gv.set_name("POST回傳：\n" +j_arr);
-                                    gv.set_name("POST回傳：\n" + j_obj.getString("records") + "\n" + j_obj.getString("records").getClass().getSimpleName());
+                                    gv.set_name("POST回傳：\n" +j_obj.getJSONArray("records").getJSONObject(0).toString());
+                                    //gv.set_name("POST回傳：\n" + j_obj.getString("records") + "\n" + j_obj.getString("records").getClass().getSimpleName());
                                     gv.set_number(Integer.toString(j_obj.getJSONArray("records").length()));
                                     //j_obj.getJSONArray("records").length();
                                 }catch(JSONException e){
-                                    gv.set_name("POST回傳：\n" + e.toString());
+                                    gv.set_name("POST回傳err：\n" + e.toString());
                                 }
 
                             GlobalVariable gv = (GlobalVariable) getApplicationContext();

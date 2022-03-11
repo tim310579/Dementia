@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -245,6 +246,34 @@ public class GlobalVariable extends Application{
             }
         }
         return result;
+    }
+
+    public void reset_all_var(){ //登入時reset所有global variable
+        this.ID = "";
+        this.name = "";
+        this.password = "";
+        this.number = "";
+        this.now_time = "";
+        //this.symptom_array = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0};
+        this.all_symptom = "";
+        this.now_problem_page = 0;
+        this.prev_problem_page = 0;
+        //Arrays.fill(this.symptom_records, "");
+        this.now_problem_page_in_overview = 0;
+        this.all_date_records.clear();
+        this.un_upload_records.clear();
+        this.history_date = "";
+        this.history_cnt_record = 0;
+        this.now_in_history_cnt_record = 0;
+        this.history_record.clear();
+        this.admin_ID = "";
+        this.admin_name = "";
+        this.admin_number = "";
+        this.admin_manage_patient_number.clear();
+        this.admin_manage_patient_name.clear();
+        this.is_admin = 0;
+        this.login_admin_number = "";
+        this.login_admin_name = "";
     }
 
     public void web_to_app(){

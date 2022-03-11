@@ -191,10 +191,16 @@ public class MainActivity extends AppCompatActivity {
             //login_fail = 0; // 記得刪除
             //*************************************8
             if (login_fail == 0){   //can login
+                //gv.reset_all_var(); // reset global vars
                 gv.is_admin = 0;
-                gv.set_admin_name("no_admin");
-                gv.set_admin_ID("no_admin");
-                gv.set_admin_number("no_admin");
+                gv.set_admin_name("");
+                gv.set_admin_ID("");
+                gv.set_admin_number("");
+                gv.set_name("");
+                gv.set_number("");
+                gv.set_ID("");
+                gv.set_login_admin_number("");
+                gv.set_login_admin_name("");
 
                 //if (ID.equals("")){ gv.set_ID("S001"); } // 之後刪掉
                 //if (ID.equals("")){ gv.set_number("S001"); } // 之後刪掉
@@ -248,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             /**取得回傳*/
+                            int has_error = 0;
                             GlobalVariable gv = (GlobalVariable) getApplicationContext();
                             try{
                                 JSONObject j_obj = new JSONObject(response.body().string());
@@ -283,19 +290,24 @@ public class MainActivity extends AppCompatActivity {
                                     //gv.set_login_admin_number(j_obj_p_list.get(0).toString());
                                 }
                             }catch(JSONException e){
-                                gv.set_name("POST回傳error：\n" + e.toString());
+                                has_error = 1;
+                                //gv.set_name("POST回傳error：\n" + e.toString());
                             }
 
-                            if (gv.is_admin == 0){ //病患家屬
-                                Intent intent = new Intent();
-                                //intent.setClass(MainActivity.this, Symptom_choose.class);
-                                intent.setClass(MainActivity.this, home.class);
-                                startActivity(intent);
+                            if(has_error == 1){
+                                //不能登入
                             }
                             else {
-                                Intent intent = new Intent();
-                                intent.setClass(MainActivity.this, Subject_list.class);
-                                startActivity(intent);
+                                if (gv.is_admin == 0) { //病患家屬
+                                    Intent intent = new Intent();
+                                    //intent.setClass(MainActivity.this, Symptom_choose.class);
+                                    intent.setClass(MainActivity.this, home.class);
+                                    startActivity(intent);
+                                } else {
+                                    Intent intent = new Intent();
+                                    intent.setClass(MainActivity.this, Subject_list.class);
+                                    startActivity(intent);
+                                }
                             }
                             //gv.set_name("POST回傳：\n" + response +"_____"+ response.body().string());
                             //Intent intent = new Intent();

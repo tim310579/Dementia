@@ -213,8 +213,8 @@ public class Record_overview extends AppCompatActivity {
                             today_record.put("admin_name", gv.get_login_admin_name());
                         }
                         else{
-                            today_record.put("admin_number", "no_admin");
-                            today_record.put("admin_name", "no_admin");
+                            today_record.put("admin_number", gv.get_login_admin_number());
+                            today_record.put("admin_name", gv.get_login_admin_name());
                         }
                         today_record.put("date", timeStamp);
                         today_record.put("record", tmp_symptom_records);
@@ -265,6 +265,7 @@ public class Record_overview extends AppCompatActivity {
                         }catch(JSONException e){
                         }
                         gv.all_date_records.add(today_record); //放到存所有日期的Object array
+                        //gv.set_name(today_record.toString());
                         gv.clean_symptom_records();
 
 

@@ -88,12 +88,12 @@ public class History_record_overview extends AppCompatActivity {
             tv_time_2.setText("記錄日期 " + history_record.getString("date"));
             String tmp_admin_number = history_record.getString("admin_number");
             String tmp_admin_name = history_record.getString("admin_name");
-            if(tmp_admin_number == "no_admin"){ //該record是由subject自行記錄
-                tv_admin_name_2.setText("");
-            }
-            else{
-                tv_admin_name_2.setText("紀錄者登入帳號 " + tmp_admin_number + " " + tmp_admin_name + '\n');
-            }
+            //if(tmp_admin_number == "no_admin"){ //該record是由subject自行記錄
+            //    tv_admin_name_2.setText("");
+           // }
+            //else{
+            tv_admin_name_2.setText("紀錄者登入帳號 " + tmp_admin_number + " " + tmp_admin_name + '\n');
+            //}
             history_record_with_symptoms = history_record.getJSONObject("record");
             for (int i = 0; i < 13; i++){
                 tokens[i] = history_record_with_symptoms.getString(all_symptom[i]);
@@ -160,7 +160,8 @@ public class History_record_overview extends AppCompatActivity {
                 }
                 else {
                     Intent intent = new Intent();
-                    intent.setClass(History_record_overview.this, MainActivity.class);
+                    //intent.setClass(History_record_overview.this, MainActivity.class);
+                    intent.setClass(History_record_overview.this, home.class);
                     startActivity(intent);
                 }
             }
@@ -168,7 +169,7 @@ public class History_record_overview extends AppCompatActivity {
 
 
         //tv_time_2.setText(history_record + Integer.toString(tokens.length));
-
+        /*
         LinearLayout mainLinerLayout = (LinearLayout) findViewById(R.id.layout_records_history);
         //LinearLayout every_record_layout = (LinearLayout) findViewById(R.id.layout_every_record);
         final View[] view = new View[13];
@@ -251,5 +252,7 @@ public class History_record_overview extends AppCompatActivity {
                 mainLinerLayout.addView(view[k]); //加入畫面上
             }
         }
+        
+         */
     }
 }
