@@ -30,6 +30,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(MainActivity.this);
                 dialog.setContentView(R.layout.popup_change_pwd);
+
                 //dialog.setTitle("Title...");
 
                 // set the custom dialog components - text, image and button
@@ -128,7 +130,56 @@ public class MainActivity extends AppCompatActivity {
                 bn_check.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                        if(!gv.haveInternet()){ //沒網路
+                        }
+                        else {
+                            if(!TextUtils.isEmpty(ID_or_name.getText()) && //有帳號或姓名
+                                    !TextUtils.isEmpty(origin_pwd.getText()) && //有原密碼
+                                    !TextUtils.isEmpty(new_pwd.getText()) && //有新密碼
+                                    !TextUtils.isEmpty(new_pwd_again.getText()) && //有新密碼確認
+                            new_pwd.getText().toString().equals(new_pwd_again.getText().toString())) //兩次密碼相同
+                            {
+                                String postUrl = "http://140.113.86.106:50059/appchangepwd";
+                                OkHttpClient client = new OkHttpClient().newBuilder()
+                                        .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                                        .build();
+                                /**設置傳送需求*/
+                                JSONObject j_obj = new JSONObject();
+                                try {
+                                    j_obj.put("ID_or_name", ID_or_name.getText());
+                                    j_obj.put("origin_pwd", origin_pwd.getText());
+                                    j_obj.put("new_pwd", new_pwd.getText());
+                                } catch (JSONException e) {
+                                }
+                                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                                RequestBody body = RequestBody.create(JSON, j_obj.toString());
+
+                                Request request = new Request.Builder()
+                                        .url(postUrl)
+                                        .addHeader("Accept-Encoding", "gzip, deflate, br")
+                                        .post(body)
+                                        .build();
+                                /**設置回傳*/
+                                Call call = client.newCall(request);
+                                call.enqueue(new Callback() {
+                                    @Override
+                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                        /**如果傳送過程有發生錯誤*/
+                                        //gv.set_name(e.getMessage());
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                        /**取得回傳*/
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+
+                        }
+                        //dialog.dismiss();
                     }
                 });
 
@@ -148,12 +199,72 @@ public class MainActivity extends AppCompatActivity {
                 //TextView text = (TextView) dialog.findViewById(R.id.textView1);
                 //text.setText("Android custom dialog example!");
                 final EditText ID_or_name = (EditText) dialog.findViewById(R.id.mEdit_ID_or_name);
+                final CheckBox chk_recover_pwd = (CheckBox) dialog.findViewById(R.id.chk_recover_pwd);
+                /*chk_recover_pwd.setOnCheckedChangeListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        StringBuffer result = new StringBuffer();
+                        //result.append("Java Selection : ").append(chk1.isChecked());
+                        //result.append("Perl Selection : ").append(chk2.isChecked());
+                        result.append(" Python Selection :").append(chk3.isChecked());
+                        Toast.makeText(MainActivity.this, result.toString(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+                 */
+
+
 
                 Button bn_check = (Button) dialog.findViewById(R.id.bn_check);
                 bn_check.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                        if(!gv.haveInternet()){ //沒網路
+                        }
+                        else {
+                            if(chk_recover_pwd.isChecked() && //有打勾
+                                    !TextUtils.isEmpty(ID_or_name.getText())) //有帳號or name
+                            {
+                                String postUrl = "http://140.113.86.106:50059/resetpwd";
+                                //String postUrl = "http://httpbin.org/post";
+                                OkHttpClient client = new OkHttpClient().newBuilder()
+                                        .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                                        .build();
+                                /**設置傳送需求*/
+                                JSONObject j_obj = new JSONObject();
+                                try {
+                                    j_obj.put("ID_or_name", ID_or_name.getText());
+                                } catch (JSONException e) {
+                                }
+                                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                                RequestBody body = RequestBody.create(JSON, j_obj.toString());
+
+                                Request request = new Request.Builder()
+                                        .url(postUrl)
+                                        .addHeader("Accept-Encoding", "gzip, deflate, br")
+                                        .post(body)
+                                        .build();
+                                /**設置回傳*/
+                                Call call = client.newCall(request);
+                                call.enqueue(new Callback() {
+                                    @Override
+                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                        /**如果傳送過程有發生錯誤*/
+                                        //gv.set_name(e.getMessage());
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                        /**取得回傳*/
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                        }
+
                     }
                 });
 
@@ -301,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
                                     //gv.admin_manage_admin_name.add("lin");
                                     //gv.admin_manage_admin_number.add("usrtest");
                                     //gv.admin_manage_admin_name.add("linhah");
-                                    //gv.set_login_admin_number(j_obj.toString());
+                                    //gv.set_login_admin_name(j_obj_a_list.toString());
                                 }
                             }catch(JSONException e){
                                 has_error = 1;

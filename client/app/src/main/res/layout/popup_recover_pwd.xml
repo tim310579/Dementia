@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="登入帳號(受試者編號或姓名)"
+        android:text="登入帳號(帳號或姓名)    "
         android:textColor="#ffffff"
         android:textAppearance="?android:attr/textAppearanceLarge"
         xmlns:android="http://schemas.android.com/apk/res/android" />
