@@ -115,10 +115,11 @@ public class Fake_subject_list extends AppCompatActivity {
         //Arrays.fill(int_history_cnt, 0);
         //String tmp = "";
         for (JSONObject obj : gv.all_date_records){
-            String tmp_subject_number="none", tmp_admin_number="none";
+            String tmp_subject_number="none", tmp_admin_number="none", tmp_timestamp="none";
             try{
                 tmp_subject_number = obj.getString("subject_number");
                 tmp_admin_number = obj.getString("admin_number");
+                tmp_timestamp = obj.getString("date");
             }catch(JSONException e){
             }
             int idx_subject = subject_numbers.indexOf(tmp_subject_number);
@@ -128,7 +129,10 @@ public class Fake_subject_list extends AppCompatActivity {
             if( idx_subject >= 0 && idx_admin >= 0) {
                 //int_history_cnt[idx_subject][idx_admin] += 1;
                 int tmp = int_history_cnts.get(idx_subject).get(idx_admin);
-                int_history_cnts.get(idx_subject).set(idx_admin, tmp + 1);
+                String timestamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                if (tmp_timestamp.equals(timestamp)) {  //是當天的
+                    int_history_cnts.get(idx_subject).set(idx_admin, tmp + 1);
+                }
             }
             //str_history_cnt[0][0] = tmp_subject_number + tmp_admin_number;
             //tmp += Integer.toString(idx_subject) + Integer.toString(idx_admin) + " : ";

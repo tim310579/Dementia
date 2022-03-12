@@ -134,13 +134,15 @@ public class home extends AppCompatActivity {
                             j_tmp.put("admin_number", j_origin.getString("admin_id"));
                             j_tmp.put("subject_number", j_origin.getString("patient_id"));
                             //改***************************************
-                            j_tmp.put("subject_name", "林依二");
-                            if(j_origin.getString("admin_id").equals("no_admin")){
-                                j_tmp.put("admin_name","no_admin");
-                            }
-                            else {
-                                j_tmp.put("admin_name", "chen");
-                            }
+                            j_tmp.put("subject_name", j_origin.getString("subject_name"));
+                            j_tmp.put("admin_name", j_origin.getString("admin_name"));
+                            //j_tmp.put("subject_name", "林依二");
+                            //if(j_origin.getString("admin_id").equals("no_admin")){
+                            //    j_tmp.put("admin_name","no_admin");
+                            //}
+                            //else {
+                            //   j_tmp.put("admin_name", "chen");
+                            //}
                             //*******************************
                             String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
                             if(j_origin.getString("date").equals(timeStamp)){ //當天的

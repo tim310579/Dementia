@@ -144,8 +144,8 @@ public class Subject_list extends AppCompatActivity {
                 //設置傳送需求
                 final JSONObject j_obj = new JSONObject();
                 try {
-                    j_obj.put("admin_number", "usr000000");
-                    j_obj.put("subject_number", "S001");
+                    j_obj.put("admin_number", gv.get_login_admin_number()); //要該admin負責的所有病人所有record
+                    //j_obj.put("subject_number", "all_subject");
                     timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
                     j_obj.put("date", timeStamp);
                 } catch (JSONException e) {
@@ -188,14 +188,15 @@ public class Subject_list extends AppCompatActivity {
                                 j_tmp.put("admin_number", j_origin.getString("admin_id"));
                                 j_tmp.put("subject_number", j_origin.getString("patient_id"));
                                 //改***************************************
-                                j_tmp.put("subject_name", "王大明");
-                                if (j_origin.getString("admin_id").equals("no_admin")) {
-                                    j_tmp.put("admin_name", "no_admin");
-                                } else {
-                                    j_tmp.put("admin_name", "lin");
-                                }
+                                j_tmp.put("subject_name", j_origin.getString("subject_name"));
+                                j_tmp.put("admin_name", j_origin.getString("admin_name"));
+                                //if (j_origin.getString("admin_id").equals("no_admin")) {
+                                //    j_tmp.put("admin_name", "no_admin");
+                                //} else {
+                                 //   j_tmp.put("admin_name", "lin");
+                                //}
                                 gv.all_date_records.add(j_tmp);
-                                record_cnt[0] += 1;
+                                //record_cnt[0] += 1;
                             }
                             //tv_welcome_msg.setText(Integer.toString(record_cnt[0]));
                         } catch (JSONException e) {

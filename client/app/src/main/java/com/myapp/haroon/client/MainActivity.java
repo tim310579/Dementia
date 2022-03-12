@@ -26,6 +26,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -288,13 +289,19 @@ public class MainActivity extends AppCompatActivity {
                                         gv.admin_manage_patient_name.add(j_obj_p_list.getJSONObject(i).getString("subject_name"));
                                         gv.admin_manage_patient_number.add(j_obj_p_list.getJSONObject(i).getString("subject_number"));
                                     }
+                                    JSONArray j_obj_a_list = j_obj.getJSONArray("admin_list");
                                     gv.admin_manage_admin_number.clear();
                                     gv.admin_manage_admin_name.clear();
-                                    gv.admin_manage_admin_number.add("usr000000");
-                                    gv.admin_manage_admin_name.add("lin");
-                                    gv.admin_manage_admin_number.add("usrtest");
-                                    gv.admin_manage_admin_name.add("linhah");
-                                    //gv.set_login_admin_number(j_obj_p_list.get(0).toString());
+                                    for(int i = 0; i < j_obj_a_list.length(); i++) {
+                                        gv.admin_manage_admin_number.add(j_obj_a_list.getJSONObject(i).getString("admin_id"));
+                                        gv.admin_manage_admin_name.add(j_obj_a_list.getJSONObject(i).getString("admin_name"));
+                                    }
+
+                                    //gv.admin_manage_admin_number.add("usr000000");
+                                    //gv.admin_manage_admin_name.add("lin");
+                                    //gv.admin_manage_admin_number.add("usrtest");
+                                    //gv.admin_manage_admin_name.add("linhah");
+                                    //gv.set_login_admin_number(j_obj.toString());
                                 }
                             }catch(JSONException e){
                                 has_error = 1;
@@ -331,9 +338,17 @@ public class MainActivity extends AppCompatActivity {
                     //finish();
                 }
 
+
             }
 
         }
+
+    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {//捕捉返回鍵
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     //}
