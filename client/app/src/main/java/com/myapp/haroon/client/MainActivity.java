@@ -122,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 final EditText new_pwd = (EditText) dialog.findViewById(R.id.mEdit_new_pwd);
                 final EditText new_pwd_again = (EditText) dialog.findViewById(R.id.mEdit_new_pwd_again);
 
+                final TextView tv_err_msg = (TextView) dialog.findViewById(R.id.tv_err_msg);
+
                 origin_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 new_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 new_pwd_again.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -177,6 +179,19 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+                            else{ //has error
+                                if(TextUtils.isEmpty(ID_or_name.getText()) || //沒有帳號或姓名
+                                        TextUtils.isEmpty(origin_pwd.getText()) || //沒有原密碼
+                                        TextUtils.isEmpty(new_pwd.getText()) || //沒有新密碼
+                                        TextUtils.isEmpty(new_pwd_again.getText()))
+                                {
+                                    tv_err_msg.setText("欄位請勿空白!");
+                                }
+                                else{ //兩次密碼不同
+                                    tv_err_msg.setText("兩次新密碼不相同!");
+                                }
+
+                            }
 
                         }
                         //dialog.dismiss();
@@ -200,21 +215,8 @@ public class MainActivity extends AppCompatActivity {
                 //text.setText("Android custom dialog example!");
                 final EditText ID_or_name = (EditText) dialog.findViewById(R.id.mEdit_ID_or_name);
                 final CheckBox chk_recover_pwd = (CheckBox) dialog.findViewById(R.id.chk_recover_pwd);
-                /*chk_recover_pwd.setOnCheckedChangeListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        StringBuffer result = new StringBuffer();
-                        //result.append("Java Selection : ").append(chk1.isChecked());
-                        //result.append("Perl Selection : ").append(chk2.isChecked());
-                        result.append(" Python Selection :").append(chk3.isChecked());
-                        Toast.makeText(MainActivity.this, result.toString(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-                 */
-
-
+                final TextView tv_err_msg = (TextView) dialog.findViewById(R.id.tv_err_msg);
 
                 Button bn_check = (Button) dialog.findViewById(R.id.bn_check);
                 bn_check.setOnClickListener(new View.OnClickListener() {
@@ -262,6 +264,14 @@ public class MainActivity extends AppCompatActivity {
                                         dialog.dismiss();
                                     }
                                 });
+                            }
+                            else {
+                                if(TextUtils.isEmpty(ID_or_name.getText())){
+                                    tv_err_msg.setText("請填入帳號或姓名!");
+                                }
+                                else {
+                                    tv_err_msg.setText("請勾選恢復預設密碼!");
+                                }
                             }
                         }
 
