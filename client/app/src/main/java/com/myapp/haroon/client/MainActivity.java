@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 gv.set_ID("");
                 gv.set_login_admin_number("");
                 gv.set_login_admin_name("");
+                gv.all_date_records.clear();
 
                 //if (ID.equals("")){ gv.set_ID("S001"); } // 之後刪掉
                 //if (ID.equals("")){ gv.set_number("S001"); } // 之後刪掉

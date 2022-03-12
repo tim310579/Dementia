@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +128,7 @@ public class Subject_list extends AppCompatActivity {
             }
         }
  */
+        final int[] record_cnt = {0};
         //放假資料test###############**************-----------------
         //先從server要資料
         if(!gv.haveInternet()){ //沒網路
@@ -134,92 +136,101 @@ public class Subject_list extends AppCompatActivity {
         }
         else {
             gv.all_date_records.clear();
-            //for(String subject_i : subject_numbers) { //該病患對應該admin的record
-            for(int l = 1 ; l < subject_numbers.size(); l++){
-                String subject_i = subject_numbers.get(l);
-                for(String admin_j : admin_numbers) {
-                    //tv_welcome_msg.setText(subject_i+admin_j);
-                    String postUrl = "http://140.113.86.106:50059/web2app";
-                    OkHttpClient client = new OkHttpClient().newBuilder()
-                            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
-                            .build();
-                    //設置傳送需求
-                    final JSONObject j_obj = new JSONObject();
-                    try {
-                        j_obj.put("admin_number", admin_j);
-                        j_obj.put("subject_number", subject_i);
-                        timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
-                        j_obj.put("date", timeStamp);
-                    } catch (JSONException e) {
+            if(gv.all_date_records.size() == 0) {//沒有record時跟server要
+                String postUrl = "http://140.113.86.106:50059/web2app";
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                        .build();
+                //設置傳送需求
+                final JSONObject j_obj = new JSONObject();
+                try {
+                    j_obj.put("admin_number", "usr000000");
+                    j_obj.put("subject_number", "S001");
+                    timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                    j_obj.put("date", timeStamp);
+                } catch (JSONException e) {
 
-                    }
-                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-                    RequestBody body = RequestBody.create(JSON, j_obj.toString());
-
-                    Request request = new Request.Builder()
-                            .url(postUrl)
-                            .addHeader("Accept-Encoding", "gzip, deflate, br")
-                            .post(body)
-                            .build();
-                    //設置回傳
-                    Call call = client.newCall(request);
-                    call.enqueue(new Callback() {
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            //如果傳送過程有發生錯誤
-                            //gv.set_name(e.getMessage());
-                        }
-
-                        @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            //取得回傳
-
-                            try{
-                                JSONObject j_obj = new JSONObject(response.body().string());
-                                //JSONObject j_arr = new JSONObject(j_obj.getJSONObject("records"));
-                                //gv.set_name("POST回傳：\n" +j_obj.getJSONArray("records").getJSONObject(0).toString());
-                                //gv.set_name("POST回傳：\n" + j_obj.getString("records") + "\n" + j_obj.getString("records").getClass().getSimpleName());
-                                //gv.set_number(Integer.toString(j_obj.getJSONArray("records").length()));
-                                //j_obj.getJSONArray("records").length();
-                                //gv.set_name(j_obj.toString());
-                                for(int i = 0; i < j_obj.getJSONArray("records").length(); i++) {
-                                    JSONObject j_origin = j_obj.getJSONArray("records").getJSONObject(i);
-                                    JSONObject j_tmp = new JSONObject();
-                                    j_tmp.put("date", j_origin.getString("date"));
-                                    j_tmp.put("record", j_origin.getJSONObject("content"));
-                                    j_tmp.put("admin_number", j_origin.getString("admin_id"));
-                                    j_tmp.put("subject_number", j_origin.getString("patient_id"));
-                                    //改***************************************
-                                    j_tmp.put("subject_name", "林依二");
-                                    if (j_origin.getString("admin_id").equals("no_admin")) {
-                                        j_tmp.put("admin_name", "no_admin");
-                                    } else {
-                                        j_tmp.put("admin_name", "chen");
-                                    }
-                                    gv.all_date_records.add(j_tmp);
-                                }
-                            }catch(JSONException e){
-                                //gv.set_name("POST回傳err：\n" + e.toString());
-                            }
-                            //tv_welcome_msg.setText(gv.all_date_records.toString());
-
-
-                            //gv.all_date_records.add(j_obj);
-
-
-
-                            //String decodeStr = response.body().string();
-                            //gv.set_name("POST回傳：\n" + response.body().string());
-                            //gv.set_name("POST回傳：\n" + decodeStr);
-                        }
-                    });
                 }
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, j_obj.toString());
+
+                Request request = new Request.Builder()
+                        .url(postUrl)
+                        .addHeader("Accept-Encoding", "gzip, deflate, br")
+                        .post(body)
+                        .build();
+                //設置回傳
+                Call call = client.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        //如果傳送過程有發生錯誤
+                        //gv.set_name(e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        //取得回傳
+
+                        try {
+                            JSONObject j_obj = new JSONObject(response.body().string());
+                            //JSONObject j_arr = new JSONObject(j_obj.getJSONObject("records"));
+                            //gv.set_name("POST回傳：\n" +j_obj.getJSONArray("records").getJSONObject(0).toString());
+                            //gv.set_name("POST回傳：\n" + j_obj.getString("records") + "\n" + j_obj.getString("records").getClass().getSimpleName());
+                            //gv.set_number(Integer.toString(j_obj.getJSONArray("records").length()));
+                            //j_obj.getJSONArray("records").length();
+                            //gv.set_name(j_obj.toString());
+                            for (int i = 0; i < j_obj.getJSONArray("records").length(); i++) {
+                                JSONObject j_origin = j_obj.getJSONArray("records").getJSONObject(i);
+                                JSONObject j_tmp = new JSONObject();
+                                j_tmp.put("date", j_origin.getString("date"));
+                                j_tmp.put("record", j_origin.getJSONObject("content"));
+                                j_tmp.put("admin_number", j_origin.getString("admin_id"));
+                                j_tmp.put("subject_number", j_origin.getString("patient_id"));
+                                //改***************************************
+                                j_tmp.put("subject_name", "王大明");
+                                if (j_origin.getString("admin_id").equals("no_admin")) {
+                                    j_tmp.put("admin_name", "no_admin");
+                                } else {
+                                    j_tmp.put("admin_name", "lin");
+                                }
+                                gv.all_date_records.add(j_tmp);
+                                record_cnt[0] += 1;
+                            }
+                            //tv_welcome_msg.setText(Integer.toString(record_cnt[0]));
+                        } catch (JSONException e) {
+                            //gv.set_name("POST回傳err：\n" + e.toString());
+                        }
+                        //tv_welcome_msg.setText(gv.all_date_records.toString());
+                        //gv.set_name(gv.all_date_records.toString());
+                        //gv.set_number(Integer.toString(record_cnt[0]));
+                        //gv.set_login_admin_number(Integer.toString(gv.all_date_records.size()));
+                        //gv.set_login_admin_name(gv.all_date_records.toString());
+                        Intent intent = new Intent();
+                        intent.setClass(Subject_list.this, Fake_subject_list.class);
+                        startActivity(intent);
+                        Subject_list.this.finish();
+
+                        //gv.all_date_records.add(j_obj);
+
+
+                        //String decodeStr = response.body().string();
+                        //gv.set_name("POST回傳：\n" + response.body().string());
+                        //gv.set_name("POST回傳：\n" + decodeStr);
+                    }
+
+                });
+                    //gv.all_date_records.clear();
+                    //for(String subject_i : subject_numbers) { //該病患對應該admin的record
+
+
+
+                //gv.set_name(gv.all_date_records.toString());
+                //gv.set_number(Integer.toString(record_cnt[0]));
+                //Intent intent = new Intent();
+                //intent.setClass(Subject_list.this, Save_success.class);
+                //startActivity(intent);
             }
-            //gv.set_name(gv.all_date_records.toString());
-            //gv.set_number(Integer.toString(gv.all_date_records.size()));
-            Intent intent = new Intent();
-            intent.setClass(Subject_list.this, Save_success.class);
-            startActivity(intent);
         }
         //Handler handler = new Handler();
         //handler.postDelayed(new Runnable() {
@@ -228,6 +239,10 @@ public class Subject_list extends AppCompatActivity {
         //    }
        // }, 3000);   //5 seconds
         //tv_welcome_msg.setText(gv.all_date_records.toString());
+        //tv_welcome_msg.setText(Integer.toString(record_cnt[0]));
+
+        /*
+
 
         for(int d = 0; d < int_history_cnt.length; d++){
             Arrays.fill(int_history_cnt[d], 0);
@@ -254,6 +269,7 @@ public class Subject_list extends AppCompatActivity {
         }
         //tv_show_time.setText(tmp);
 
+         */
         /*
         for(int m = 0; m < int_history_cnt.length; m++){
             for(int n = 0 ; n < int_history_cnt[m].length; n++){
@@ -267,7 +283,7 @@ public class Subject_list extends AppCompatActivity {
                 }
             }
         }*/
-
+        /*
         gv.set_admin_number(gv.get_login_admin_number());
         gv.set_admin_name(gv.get_login_admin_name());
         for (int j = 0; j < subject_numbers.size(); j++) {
@@ -350,7 +366,8 @@ public class Subject_list extends AppCompatActivity {
             tab.addView(view[i]);
         }
 
-        bn_history_cnt[1][0].setText(Integer.toString(gv.all_date_records.size()));
+        //bn_history_cnt[1][0].setText(Integer.toString(gv.all_date_records.size()));
+        //bn_history_cnt[1][0].setText(record_cnt[0]);
 
 
         //tv_today_record_cnt.setWidth(bn_history_cnt[0][0].getMeasuredWidth()*admin_number_cnt);
@@ -364,5 +381,18 @@ public class Subject_list extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+         */
     }
+    //@Override
+    //public boolean onKeyDown(int keyCode, KeyEvent event) {//捕捉返回鍵
+      //  if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+        //    //ConfirmExit();//按返回鍵，則執行退出確認
+          //  Subject_list.this.finish();
+            //return true;
+        //}
+      //  return super.onKeyDown(keyCode, event);
+    //}
+
+
 }

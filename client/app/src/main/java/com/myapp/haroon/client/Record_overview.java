@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -1085,5 +1086,11 @@ public class Record_overview extends AppCompatActivity {
             }
             return error_msg;
         }
+    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {//捕捉返回鍵
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            return false; //返回鍵失效
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

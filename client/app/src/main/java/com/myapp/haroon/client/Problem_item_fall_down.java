@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -397,4 +398,10 @@ public class Problem_item_fall_down extends AppCompatActivity {
         }
             //finish();
     }*/
+    public boolean onKeyDown(int keyCode, KeyEvent event) {//捕捉返回鍵
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            return false; //返回鍵失效
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
