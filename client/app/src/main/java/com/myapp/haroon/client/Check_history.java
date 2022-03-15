@@ -43,7 +43,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class Check_history extends AppCompatActivity {
     private TextView tv_show_number, tv_show_name, tv_show_time;
     private Button bn_back_to_login, bn_record_another, bn_logout, bn_re_upload_record;
-    private Button bn_test;
+    //private Button bn_test;
     //private CalendarView calendar_view;
     private TextView tv_please_click_date;
 
@@ -89,8 +89,8 @@ public class Check_history extends AppCompatActivity {
         bn_logout.setOnClickListener(new ButtonClickListener());
         bn_re_upload_record = (Button) findViewById(R.id.bn_re_upload_record);
         bn_re_upload_record.setOnClickListener(new ButtonClickListener());
-        bn_test = (Button) findViewById(R.id.bn_test);
-        bn_test.setOnClickListener(new ButtonClickListener());
+        //bn_test = (Button) findViewById(R.id.bn_test);
+        //bn_test.setOnClickListener(new ButtonClickListener());
 
         bn_days[1] = (Button) findViewById(R.id.bn_day1);
         bn_days[2] = (Button) findViewById(R.id.bn_day2);
@@ -410,6 +410,7 @@ public class Check_history extends AppCompatActivity {
                 }
             }
         });
+        /*
         bn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -480,6 +481,8 @@ public class Check_history extends AppCompatActivity {
                 }
             }
         });
+
+         */
         //finish();
 
 
