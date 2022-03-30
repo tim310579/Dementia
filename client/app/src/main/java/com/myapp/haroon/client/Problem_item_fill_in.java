@@ -144,7 +144,9 @@ public class Problem_item_fill_in extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         //String format = "您設定的日期為:"+ setDateFormat(year,month,day);
-                        tv_begin_date.setText(String.valueOf(year) + "/" +String.valueOf(month+1) + "/" + String.valueOf(day));
+                        //tv_begin_date.setText(String.valueOf(year) + "/" +String.valueOf(month+1) + "/" + String.valueOf(day));
+                        tv_begin_date.setText(String.valueOf(year) + "/" +String.format("%02d", month+1) + "/" + String.format("%02d", day));
+
                     }
 
                 }, mYear,mMonth, mDay).show();            }
@@ -162,7 +164,9 @@ public class Problem_item_fill_in extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         //String format = "您設定的日期為:"+ setDateFormat(year,month,day);
-                        tv_end_date.setText(String.valueOf(year) + "/" +String.valueOf(month+1) + "/" + String.valueOf(day));
+                        //tv_end_date.setText(String.valueOf(year) + "/" +String.valueOf(month+1) + "/" + String.valueOf(day));
+                        tv_end_date.setText(String.valueOf(year) + "/" +String.format("%02d", month+1) + "/" + String.format("%02d", day));
+
                     }
 
                 }, mYear,mMonth, mDay).show();            }

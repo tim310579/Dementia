@@ -208,8 +208,8 @@ public class History_record_overview extends AppCompatActivity {
 
                     tv_severity_item.setText("#嚴重度 " + each_symptom_tokens[0]);
                     tv_distress_item.setText("#困擾程度 " + each_symptom_tokens[1]);
-                    tv_begin_time.setText("開始:" + each_symptom_tokens[2].split("/", 2)[1]);
-                    tv_end_time.setText("結束:" + each_symptom_tokens[3].split("/", 2)[1]);
+                    tv_begin_time.setText("開始: " + each_symptom_tokens[2]); //.split("/", 2)[1]);
+                    tv_end_time.setText("結束: " + each_symptom_tokens[3]);//.split("/", 2)[1]);
 
                     //if (each_symptom_tokens.length > 4){ //有填事件敘述
                     if(!each_symptom_tokens[4].isEmpty()){ //有填事件敘述
@@ -244,8 +244,8 @@ public class History_record_overview extends AppCompatActivity {
 
                 //tv_severity_item.setText("#嚴重度 " + each_symptom_tokens[0]);
                 //tv_distress_item.setText("#困擾程度 " + each_symptom_tokens[1]);
-                tv_begin_time.setText("開始:" + each_symptom_tokens[0].split("/", 2)[1]);
-                tv_end_time.setText("結束:" + each_symptom_tokens[1].split("/", 2)[1]);
+                tv_begin_time.setText("開始: " + each_symptom_tokens[0]); //.split("/", 2)[1]);
+                tv_end_time.setText("結束: " + each_symptom_tokens[1]); //.split("/", 2)[1]);
 
                 //if (each_symptom_tokens.length > 2){ //有填事件敘述
                 if(!each_symptom_tokens[2].isEmpty()){ //有填事件敘述
