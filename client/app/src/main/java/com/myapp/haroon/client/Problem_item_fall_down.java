@@ -94,6 +94,10 @@ public class Problem_item_fall_down extends AppCompatActivity {
         tv_begin_date = (TextView) findViewById(R.id.tv_begin_date);
         tv_end_date = (TextView) findViewById(R.id.tv_end_date);
 
+        String timeStamp0 = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+        tv_begin_date.setText(timeStamp0);
+        tv_end_date.setText(timeStamp0);
+
         mEdit_event_description = (EditText) findViewById(R.id.mEdit_event_description);
 
         bn_begin_date.setOnClickListener(new View.OnClickListener(){
@@ -200,14 +204,14 @@ public class Problem_item_fall_down extends AppCompatActivity {
                 }
                 else if (end_time==0){ //morning
                     //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                    String timeStamp = tv_begin_date.getText().toString();
+                    String timeStamp = tv_end_date.getText().toString();
                     detailed_end_time = timeStamp + " 上午"+ mEdit_end_hr.getText().toString().trim()
                             + ":" + mEdit_end_min.getText().toString().trim();
                     //final_record += detailed_end_time;
                 }
                 else if (end_time==1){ //afternoon
                     //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                    String timeStamp = tv_begin_date.getText().toString();
+                    String timeStamp = tv_end_date.getText().toString();
                     detailed_end_time += timeStamp + " 下午"+ mEdit_end_hr.getText().toString().trim()
                             + ":" + mEdit_end_min.getText().toString().trim();
                     //final_record += detailed_end_time;

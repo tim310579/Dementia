@@ -1083,18 +1083,21 @@ public class Record_overview extends AppCompatActivity {
             detailed_end_time = "";
             if (begin_time==2){ // now
                 String timeStamp = new SimpleDateFormat("yyyy/MM/dd ahh:mm").format(Calendar.getInstance().getTime());
+                //String timeStamp = tv_begin_date.getText().toString();
                 detailed_begin_time = timeStamp;
                 //final_record += timeStamp;
             }
             else if (begin_time==0){ //morning
-                String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                detailed_begin_time = timeStamp + "上午"+ mEdit_begin_hr.getText().toString().trim()
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                String timeStamp = tv_begin_date.getText().toString();
+                detailed_begin_time = timeStamp + " 上午"+ mEdit_begin_hr.getText().toString().trim()
                         + ":" + mEdit_begin_min.getText().toString().trim();
                 //final_record += detailed_begin_time;
             }
             else if (begin_time==1){ //afternoon
-                String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                detailed_begin_time = timeStamp + "下午"+ mEdit_begin_hr.getText().toString().trim()
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                String timeStamp = tv_begin_date.getText().toString();
+                detailed_begin_time = timeStamp + " 下午"+ mEdit_begin_hr.getText().toString().trim()
                         + ":" + mEdit_begin_min.getText().toString().trim();
                 //final_record += detailed_begin_time;
             }
@@ -1104,14 +1107,16 @@ public class Record_overview extends AppCompatActivity {
                 //final_record += timeStamp;
             }
             else if (end_time==0){ //morning
-                String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                detailed_end_time = timeStamp + "上午"+ mEdit_end_hr.getText().toString().trim()
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                String timeStamp = tv_end_date.getText().toString();
+                detailed_end_time = timeStamp + " 上午"+ mEdit_end_hr.getText().toString().trim()
                         + ":" + mEdit_end_min.getText().toString().trim();
                 //final_record += detailed_end_time;
             }
             else if (end_time==1){ //afternoon
-                String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                detailed_end_time += timeStamp + "下午"+ mEdit_end_hr.getText().toString().trim()
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                String timeStamp = tv_end_date.getText().toString();
+                detailed_end_time += timeStamp + " 下午"+ mEdit_end_hr.getText().toString().trim()
                         + ":" + mEdit_end_min.getText().toString().trim();
                 //final_record += detailed_end_time;
             }
