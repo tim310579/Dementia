@@ -2,6 +2,7 @@ package com.myapp.haroon.client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -36,6 +38,8 @@ public class Problem_item_fall_down extends AppCompatActivity {
 
     private EditText mEdit_begin_hr, mEdit_begin_min, mEdit_end_hr, mEdit_end_min;
     private EditText mEdit_event_description;
+    private Button bn_begin_date, bn_end_date;
+    private TextView tv_begin_date, tv_end_date;
 
     private String final_record="";
 
@@ -84,8 +88,49 @@ public class Problem_item_fall_down extends AppCompatActivity {
         mEdit_end_hr = (EditText) findViewById(R.id.mEdit_end_hr);
         mEdit_end_min = (EditText) findViewById(R.id.mEdit_end_min);
 
+        bn_begin_date = (Button) findViewById(R.id.bn_begin_date);
+        bn_end_date = (Button) findViewById(R.id.bn_end_date);
+
+        tv_begin_date = (TextView) findViewById(R.id.tv_begin_date);
+        tv_end_date = (TextView) findViewById(R.id.tv_end_date);
+
         mEdit_event_description = (EditText) findViewById(R.id.mEdit_event_description);
 
+        bn_begin_date.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                new DatePickerDialog(Problem_item_fall_down.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        //String format = "您設定的日期為:"+ setDateFormat(year,month,day);
+                        tv_begin_date.setText(String.valueOf(year) + "/" +String.valueOf(month+1) + "/" + String.valueOf(day));
+                    }
+
+                }, mYear,mMonth, mDay).show();            }
+
+        });
+
+        bn_end_date.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                new DatePickerDialog(Problem_item_fall_down.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        //String format = "您設定的日期為:"+ setDateFormat(year,month,day);
+                        tv_end_date.setText(String.valueOf(year) + "/" +String.valueOf(month+1) + "/" + String.valueOf(day));
+                    }
+
+                }, mYear,mMonth, mDay).show();            }
+
+        });
 
         bn_back = (Button) findViewById(R.id.bn_back);
         bn_back.setOnClickListener(new ButtonClickListener());
@@ -130,14 +175,16 @@ public class Problem_item_fall_down extends AppCompatActivity {
                     //final_record += timeStamp;
                 }
                 else if (begin_time==0){ //morning
-                    String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                    detailed_begin_time = timeStamp + "上午"+ mEdit_begin_hr.getText().toString().trim()
+                    //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                    String timeStamp = tv_begin_date.getText().toString();
+                    detailed_begin_time = timeStamp + " 上午"+ mEdit_begin_hr.getText().toString().trim()
                             + ":" + mEdit_begin_min.getText().toString().trim();
                     //final_record += detailed_begin_time;
                 }
                 else if (begin_time==1){ //afternoon
-                    String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                    detailed_begin_time = timeStamp + "下午"+ mEdit_begin_hr.getText().toString().trim()
+                    //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                    String timeStamp = tv_begin_date.getText().toString();
+                    detailed_begin_time = timeStamp + " 下午"+ mEdit_begin_hr.getText().toString().trim()
                             + ":" + mEdit_begin_min.getText().toString().trim();
                     //final_record += detailed_begin_time;
                 }
@@ -147,14 +194,16 @@ public class Problem_item_fall_down extends AppCompatActivity {
                     //final_record += timeStamp;
                 }
                 else if (end_time==0){ //morning
-                    String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                    detailed_end_time = timeStamp + "上午"+ mEdit_end_hr.getText().toString().trim()
+                    //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                    String timeStamp = tv_begin_date.getText().toString();
+                    detailed_end_time = timeStamp + " 上午"+ mEdit_end_hr.getText().toString().trim()
                             + ":" + mEdit_end_min.getText().toString().trim();
                     //final_record += detailed_end_time;
                 }
                 else if (end_time==1){ //afternoon
-                    String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                    detailed_end_time += timeStamp + "下午"+ mEdit_end_hr.getText().toString().trim()
+                    //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                    String timeStamp = tv_begin_date.getText().toString();
+                    detailed_end_time += timeStamp + " 下午"+ mEdit_end_hr.getText().toString().trim()
                             + ":" + mEdit_end_min.getText().toString().trim();
                     //final_record += detailed_end_time;
                 }

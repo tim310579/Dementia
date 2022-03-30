@@ -5,9 +5,11 @@ import static android.provider.Telephony.Mms.Part.CHARSET;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -97,6 +100,11 @@ public class Record_overview extends AppCompatActivity {
     private EditText mEdit_begin_min;
     private EditText mEdit_end_hr;
     private EditText mEdit_end_min;
+
+    private TextView tv_begin_hr, tv_begin_min, tv_end_hr, tv_end_min;
+
+    private Button bn_begin_date, bn_end_date;
+    private TextView tv_begin_date, tv_end_date;
 
     private EditText mEdit_event_description;
 
@@ -382,6 +390,12 @@ public class Record_overview extends AppCompatActivity {
                 else{
                     checkBoxes_end_time[1].setChecked(true);
                 }
+                //找到開始日期
+                String begin_date = tokens[2].split("午")[0].split(" ")[0];
+                String end_date = tokens[3].split("午")[0].split(" ")[0];
+
+                tv_begin_date.setText(begin_date);
+                tv_end_date.setText(end_date);
 
                 //抓出分和秒
                 String[] begin_time_hr_and_min = tokens[2].split("午")[1].split(":");
@@ -402,6 +416,41 @@ public class Record_overview extends AppCompatActivity {
 
                 Test_function func = new Test_function();
                 func.set_enable(0, false);
+
+                bn_begin_date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view_) {
+                        final Calendar c = Calendar.getInstance();
+                        int mYear = c.get(Calendar.YEAR);
+                        int mMonth = c.get(Calendar.MONTH);
+                        int mDay = c.get(Calendar.DAY_OF_MONTH);
+                        new DatePickerDialog(Record_overview.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                //String format = "您設定的日期為:"+ setDateFormat(year,month,day);
+                                tv_begin_date.setText(String.valueOf(year) + "/" +String.valueOf(month+1) + "/" + String.valueOf(day));
+                            }
+
+                        }, mYear,mMonth, mDay).show();
+                    }
+                });
+                bn_end_date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view_) {
+                        final Calendar c = Calendar.getInstance();
+                        int mYear = c.get(Calendar.YEAR);
+                        int mMonth = c.get(Calendar.MONTH);
+                        int mDay = c.get(Calendar.DAY_OF_MONTH);
+                        new DatePickerDialog(Record_overview.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                //String format = "您設定的日期為:"+ setDateFormat(year,month,day);
+                                tv_end_date.setText(String.valueOf(year) + "/" +String.valueOf(month+1) + "/" + String.valueOf(day));
+                            }
+
+                        }, mYear,mMonth, mDay).show();
+                    }
+                });
 
                 bn_modify.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -497,6 +546,11 @@ public class Record_overview extends AppCompatActivity {
             else{
                 checkBoxes_end_time[1].setChecked(true);
             }
+            String begin_date = tokens[0].split("午")[0].split(" ")[0];
+            String end_date = tokens[1].split("午")[0].split(" ")[0];
+
+            tv_begin_date.setText(begin_date);
+            tv_end_date.setText(end_date);
 
             //抓出分和秒
             String[] begin_time_hr_and_min = tokens[0].split("午")[1].split(":");
@@ -718,6 +772,50 @@ public class Record_overview extends AppCompatActivity {
             mEdit_end_hr.setEnabled(t_f);
             mEdit_end_min.setEnabled(t_f);
             mEdit_event_description.setEnabled(t_f);
+
+            bn_begin_date.setEnabled(t_f);
+            bn_end_date.setEnabled(t_f);
+            tv_begin_date.setEnabled(t_f);
+            tv_end_date.setEnabled(t_f);
+
+            if(t_f == false){
+                int gray_c = 170;
+                mEdit_begin_hr.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                mEdit_begin_min.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                mEdit_end_hr.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                mEdit_end_min.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                mEdit_event_description.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+
+                tv_begin_hr.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                tv_begin_min.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                tv_end_hr.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                tv_end_min.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+
+                tv_begin_date.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                tv_end_date.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+
+                bn_begin_date.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                bn_end_date.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+            }
+            else{
+                int gray_c = 0;
+                mEdit_begin_hr.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                mEdit_begin_min.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                mEdit_end_hr.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                mEdit_end_min.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                mEdit_event_description.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+
+                tv_begin_hr.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                tv_begin_min.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                tv_end_hr.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                tv_end_min.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+
+                tv_begin_date.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                tv_end_date.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+
+                bn_begin_date.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+                bn_end_date.setTextColor(Color.rgb(gray_c, gray_c, gray_c));
+            }
         }
         void set_checkbox_init(View view)
         {
@@ -741,6 +839,17 @@ public class Record_overview extends AppCompatActivity {
             mEdit_begin_min = (EditText) view.findViewById(R.id.mEdit_begin_min);
             mEdit_end_hr = (EditText) view.findViewById(R.id.mEdit_end_hr);
             mEdit_end_min = (EditText) view.findViewById(R.id.mEdit_end_min);
+
+            tv_begin_hr = (TextView) view.findViewById(R.id.tv_begin_hr);
+            tv_begin_min = (TextView) view.findViewById(R.id.tv_begin_min);
+            tv_end_hr = (TextView) view.findViewById(R.id.tv_end_hr);
+            tv_end_min = (TextView) view.findViewById(R.id.tv_end_min);
+
+            bn_begin_date = (Button) view.findViewById(R.id.bn_begin_date);
+            bn_end_date = (Button) view.findViewById(R.id.bn_end_date);
+
+            tv_begin_date = (TextView) view.findViewById(R.id.tv_begin_date);
+            tv_end_date = (TextView) view.findViewById(R.id.tv_end_date);
 
             mEdit_event_description = (EditText) view.findViewById(R.id.mEdit_event_description);
 
@@ -777,6 +886,17 @@ public class Record_overview extends AppCompatActivity {
 
             mEdit_event_description = (EditText) view.findViewById(R.id.mEdit_event_description);
 
+            tv_begin_hr = (TextView) view.findViewById(R.id.tv_begin_hr);
+            tv_begin_min = (TextView) view.findViewById(R.id.tv_begin_min);
+            tv_end_hr = (TextView) view.findViewById(R.id.tv_end_hr);
+            tv_end_min = (TextView) view.findViewById(R.id.tv_end_min);
+
+            bn_begin_date = (Button) view.findViewById(R.id.bn_begin_date);
+            bn_end_date = (Button) view.findViewById(R.id.bn_end_date);
+
+            tv_begin_date = (TextView) view.findViewById(R.id.tv_begin_date);
+            tv_end_date = (TextView) view.findViewById(R.id.tv_end_date);
+
         }
         void set_fall_down_checkbox_listener(){
             checkBoxes_begin_time[0].setOnCheckedChangeListener(checkBoxOnCheckedChange_3);
@@ -799,15 +919,17 @@ public class Record_overview extends AppCompatActivity {
                 //final_record += timeStamp;
             }
             else if (begin_time==0){ //morning
-                String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                detailed_begin_time = timeStamp + "上午"+
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                String timeStamp = tv_begin_date.getText().toString();
+                detailed_begin_time = timeStamp + " 上午"+
                         mEdit_begin_hr.getText().toString().trim() + ":" +
                         mEdit_begin_min.getText().toString().trim();
                 //final_record += detailed_begin_time;
             }
             else if (begin_time==1){ //afternoon
-                String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                detailed_begin_time = timeStamp + "下午"+
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                String timeStamp = tv_begin_date.getText().toString();
+                detailed_begin_time = timeStamp + " 下午"+
                         mEdit_begin_hr.getText().toString().trim() + ":" +
                         mEdit_begin_min.getText().toString().trim();
                 //final_record += detailed_begin_time;
@@ -818,15 +940,17 @@ public class Record_overview extends AppCompatActivity {
                 //final_record += timeStamp;
             }
             else if (end_time==0){ //morning
-                String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                detailed_end_time = timeStamp + "上午"+
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                String timeStamp = tv_end_date.getText().toString();
+                detailed_end_time = timeStamp + " 上午"+
                         mEdit_end_hr.getText().toString().trim() + ":" +
                         mEdit_end_min.getText().toString().trim();
                 //final_record += detailed_end_time;
             }
             else if (end_time==1){ //afternoon
-                String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
-                detailed_end_time += timeStamp + "下午"+
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd ").format(Calendar.getInstance().getTime());
+                String timeStamp = tv_end_date.getText().toString();
+                detailed_end_time += timeStamp + " 下午"+
                         mEdit_end_hr.getText().toString().trim() + ":" +
                         mEdit_end_min.getText().toString().trim();
                 //final_record += detailed_end_time;
