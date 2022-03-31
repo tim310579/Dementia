@@ -18,9 +18,11 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 public class History_record_overview extends AppCompatActivity {
     private TextView tv_show_number, tv_show_name, tv_show_time;
@@ -208,8 +210,25 @@ public class History_record_overview extends AppCompatActivity {
 
                     tv_severity_item.setText("#嚴重度 " + each_symptom_tokens[0]);
                     tv_distress_item.setText("#困擾程度 " + each_symptom_tokens[1]);
-                    tv_begin_time.setText("開始: " + each_symptom_tokens[2]); //.split("/", 2)[1]);
-                    tv_end_time.setText("結束: " + each_symptom_tokens[3]);//.split("/", 2)[1]);
+
+                    try {
+                        Date timeStamp_begin_date = new SimpleDateFormat("yyyy/MM/dd ahh:mm").parse(each_symptom_tokens[2]);
+                        Date timeStamp_end_date = new SimpleDateFormat("yyyy/MM/dd ahh:mm").parse(each_symptom_tokens[3]);
+                        String timeStamp_begin_str = new SimpleDateFormat("yyyy/MM/dd ahh:mm").format(timeStamp_begin_date);
+                        String timeStamp_end_str = new SimpleDateFormat("yyyy/MM/dd ahh:mm").format(timeStamp_begin_date);
+                        tv_begin_time.setText("開始: " + timeStamp_begin_str); //.split("/", 2)[1]);
+                        tv_end_time.setText("結束: " + timeStamp_end_str);//.split("/", 2)[1]);
+                    } catch (ParseException e) {
+                        tv_begin_time.setText("開始: " + each_symptom_tokens[2]); //.split("/", 2)[1]);
+                        tv_end_time.setText("結束: " + each_symptom_tokens[3]);//.split("/", 2)[1]);
+                        e.printStackTrace();
+                    }
+
+                    //tv_begin_time.setText("開始: " + timeStamp_begin); //.split("/", 2)[1]);
+                    //tv_end_time.setText("結束: " + timeStamp_end);//.split("/", 2)[1]);
+
+                    //tv_begin_time.setText("開始: " + each_symptom_tokens[2]); //.split("/", 2)[1]);
+                    //tv_end_time.setText("結束: " + each_symptom_tokens[3]);//.split("/", 2)[1]);
 
                     //if (each_symptom_tokens.length > 4){ //有填事件敘述
                     if(!each_symptom_tokens[4].isEmpty()){ //有填事件敘述
@@ -235,6 +254,7 @@ public class History_record_overview extends AppCompatActivity {
 
                 //tv_severity_item = (TextView) view[i].findViewById(R.id.tv_severity_item);
                 //tv_distress_item = (TextView) view[i].findViewById(R.id.tv_distress_item);
+
                 tv_begin_time = (TextView) view[k].findViewById(R.id.tv_begin_time);
                 tv_end_time = (TextView) view[k].findViewById(R.id.tv_end_time);
                 tv_event_description = (TextView) view[k].findViewById(R.id.tv_event_description);
@@ -244,8 +264,25 @@ public class History_record_overview extends AppCompatActivity {
 
                 //tv_severity_item.setText("#嚴重度 " + each_symptom_tokens[0]);
                 //tv_distress_item.setText("#困擾程度 " + each_symptom_tokens[1]);
-                tv_begin_time.setText("開始: " + each_symptom_tokens[0]); //.split("/", 2)[1]);
-                tv_end_time.setText("結束: " + each_symptom_tokens[1]); //.split("/", 2)[1]);
+                //String timeStamp_begin = new SimpleDateFormat("yyyy/MM/dd ahh:mm").format(each_symptom_tokens[0]);
+                //String timeStamp_end = new SimpleDateFormat("yyyy/MM/dd ahh:mm").format(each_symptom_tokens[1]);
+                //tv_begin_time.setText("開始: " + timeStamp_begin); //.split("/", 2)[1]);
+                //tv_end_time.setText("結束: " + timeStamp_end);//.split("/", 2)[1]);
+
+                try {
+                    Date timeStamp_begin_date = new SimpleDateFormat("yyyy/MM/dd ahh:mm").parse(each_symptom_tokens[0]);
+                    Date timeStamp_end_date = new SimpleDateFormat("yyyy/MM/dd ahh:mm").parse(each_symptom_tokens[1]);
+                    String timeStamp_begin_str = new SimpleDateFormat("yyyy/MM/dd ahh:mm").format(timeStamp_begin_date);
+                    String timeStamp_end_str = new SimpleDateFormat("yyyy/MM/dd ahh:mm").format(timeStamp_begin_date);
+                    tv_begin_time.setText("開始: " + timeStamp_begin_str); //.split("/", 2)[1]);
+                    tv_end_time.setText("結束: " + timeStamp_end_str);//.split("/", 2)[1]);
+                } catch (ParseException e) {
+                    tv_begin_time.setText("開始: " + each_symptom_tokens[0]); //.split("/", 2)[1]);
+                    tv_end_time.setText("結束: " + each_symptom_tokens[1]);//.split("/", 2)[1]);
+                    e.printStackTrace();
+                }
+                //tv_begin_time.setText("開始: " + each_symptom_tokens[0]); //.split("/", 2)[1]);
+                //tv_end_time.setText("結束: " + each_symptom_tokens[1]); //.split("/", 2)[1]);
 
                 //if (each_symptom_tokens.length > 2){ //有填事件敘述
                 if(!each_symptom_tokens[2].isEmpty()){ //有填事件敘述
