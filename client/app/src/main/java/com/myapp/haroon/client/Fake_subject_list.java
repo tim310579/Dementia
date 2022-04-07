@@ -54,6 +54,7 @@ public class Fake_subject_list extends AppCompatActivity {
 
     private ArrayList<TextView> tv_subject_numbers = new ArrayList<TextView>();
     private ArrayList<Button> bn_subject_names = new ArrayList<Button>();
+    private ArrayList<Button> bn_subject_sensor_status = new ArrayList<Button>();
 
     private ArrayList<ArrayList<Integer>> int_history_cnts = new ArrayList<>();
     private ArrayList<ArrayList<Button>> bn_history_cnts = new ArrayList<>();
@@ -152,13 +153,19 @@ public class Fake_subject_list extends AppCompatActivity {
             //TextView tv_tmp = new TextView(this);
             tv_subject_numbers.add((TextView) view[i].findViewById(R.id.tv_subject_number));
             bn_subject_names.add((Button) view[i].findViewById(R.id.bn_subject_name));
+            bn_subject_sensor_status.add((Button) view[i].findViewById(R.id.bn_subject_sensor_status));
 
             //tv_subject_number[i].setText(subject_numbers.get(i));
             //bn_subject_name[i].setText(subject_names.get(i));
 
             tv_subject_numbers.get(i).setText(subject_numbers.get(i));
             bn_subject_names.get(i).setText(subject_names.get(i));
+            bn_subject_sensor_status.get(i).setText("使用中");//subject_names.get(i));
 
+            if(i == 0){
+                bn_subject_sensor_status.get(i).setText("");
+                bn_subject_sensor_status.get(i).setEnabled(false);
+            }
             if(subject_names.get(i).equals("")){
                 //bn_subject_name[i].setEnabled(false);
                 bn_subject_names.get(i).setEnabled(false);
@@ -232,6 +239,29 @@ public class Fake_subject_list extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(Fake_subject_list.this, Symptom_choose.class);
                     startActivity(intent);
+                }
+            });
+
+            bn_subject_sensor_status.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view_) {
+                    //點到該名字，跳出症狀選擇頁面
+                    GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                    if(bn_subject_sensor_status.get(i).getText().toString()=="充電中"){
+                        bn_subject_sensor_status.get(i).setText("使用中");
+                        bn_subject_sensor_status.get(i).setTextColor(Color.rgb(135,135,135));
+                    }
+                    else{
+                        bn_subject_sensor_status.get(i).setText("充電中");
+                        bn_subject_sensor_status.get(i).setTextColor(Color.rgb(255,0,0));
+                    }
+
+                    //gv.set_number(subject_numbers.get(i));
+                    //gv.set_name(subject_names.get(i));
+
+                    //Intent intent = new Intent();
+                    //intent.setClass(Fake_subject_list.this, Symptom_choose.class);
+                    //startActivity(intent);
                 }
             });
 

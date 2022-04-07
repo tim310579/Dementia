@@ -42,6 +42,10 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class Subject_list extends AppCompatActivity {
+    /*********************************
+     //此頁面為顫存頁面，沒什麼用
+     //Fake 頁面才是會顯示紀錄筆數的頁面*****
+     *********************************/
 
     private TextView tv_welcome_msg, tv_show_time;
     private TextView tv_remind_words;

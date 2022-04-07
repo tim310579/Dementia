@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
@@ -42,7 +43,7 @@ public class home extends AppCompatActivity {
     private Button bn_logout;
 
     private Button bn_subject_name, bn_cnt_today;
-
+    private Button bn_sensor_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +73,21 @@ public class home extends AppCompatActivity {
         tv_subject_number = (TextView) findViewById(R.id.tv_subject_number);
         bn_subject_name = (Button) findViewById(R.id.bn_subject_name);
         bn_cnt_today = (Button) findViewById(R.id.bn_cnt_today);
+        bn_sensor_status = (Button) findViewById(R.id.bn_sensor_status);
 
         tv_subject_number.setText(gv.get_number());
         bn_subject_name.setText(gv.get_name());
         bn_cnt_today.setText("0");
+
+        if(gv.get_sensor_status()==0){  //0->使用，1->充電
+            bn_sensor_status.setText("使用中");
+            bn_sensor_status.setTextColor(Color.rgb(135,135,135));
+        }
+        else{
+            bn_sensor_status.setText("充電中");
+            bn_sensor_status.setTextColor(Color.rgb(255,0,0));
+        }
+
         final int[] today_rec_cnt = {0};
         // final GlobalVariable gv = (GlobalVariable) getApplicationContext();
         if(!gv.haveInternet()){ //沒網路
@@ -188,6 +200,28 @@ public class home extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(home.this, Check_history.class);
                 startActivity(intent);
+            }
+        });
+
+        bn_sensor_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(gv.get_sensor_status()==0){
+                    bn_sensor_status.setText("充電中");
+                    gv.set_sensor_status(1);
+                    bn_sensor_status.setTextColor(Color.rgb(255,0,0));
+
+                }
+                else{
+                    bn_sensor_status.setText("使用中");
+                    gv.set_sensor_status(0);
+                    bn_sensor_status.setTextColor(Color.rgb(135,135,135));
+                }
+
+
+                //Intent intent = new Intent();
+                //intent.setClass(home.this, Check_history.class);
+                //startActivity(intent);
             }
         });
 
