@@ -218,6 +218,77 @@ public class home extends AppCompatActivity {
                     bn_sensor_status.setTextColor(Color.rgb(135,135,135));
                 }
 
+                /******************************
+                 //send sensor status to server//
+                 /******************************/
+                String postUrl = "http://140.113.86.106:50059/web2app";
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                        .build();
+                //設置傳送需求
+                JSONObject j_obj = new JSONObject();
+                try {
+                    j_obj.put("admin_number", gv.get_login_admin_number());
+                    j_obj.put("subject_number", gv.get_number());
+                    //timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                    //j_obj.put("date", timeStamp);
+                } catch (JSONException e) {
+
+                }
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, j_obj.toString());
+
+                Request request = new Request.Builder()
+                        .url(postUrl)
+                        .addHeader("Accept-Encoding", "gzip, deflate, br")
+                        .post(body)
+                        .build();
+                //設置回傳
+                Call call = client.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        //如果傳送過程有發生錯誤
+                        //gv.set_name(e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        //取得回傳
+                        gv.all_date_records.clear();
+
+                        try{
+                            JSONObject j_obj = new JSONObject(response.body().string());
+
+                            for(int i = 0; i < j_obj.getJSONArray("records").length(); i++){
+                                JSONObject j_origin = j_obj.getJSONArray("records").getJSONObject(i);
+                                JSONObject j_tmp = new JSONObject();
+                                j_tmp.put("date", j_origin.getString("date"));
+                                j_tmp.put("record", j_origin.getJSONObject("content"));
+                                j_tmp.put("admin_number", j_origin.getString("admin_id"));
+                                j_tmp.put("subject_number", j_origin.getString("patient_id"));
+                                //改***************************************
+                                j_tmp.put("subject_name", j_origin.getString("subject_name"));
+                                j_tmp.put("admin_name", j_origin.getString("admin_name"));
+
+                                String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+                                if(j_origin.getString("date").equals(timeStamp)){ //當天的
+                                    today_rec_cnt[0] += 1;
+                                }
+                                gv.all_date_records.add(j_tmp);
+                            }
+                            bn_cnt_today.setText(Integer.toString(today_rec_cnt[0]));
+
+                        }catch(JSONException e){
+                            //gv.set_name("POST回傳err：\n" + e.toString());
+                        }
+
+                    }
+                });
+                /******************************
+                 //send sensor status to server//
+                 /******************************/
+
 
                 //Intent intent = new Intent();
                 //intent.setClass(home.this, Check_history.class);
