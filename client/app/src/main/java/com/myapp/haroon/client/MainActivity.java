@@ -329,6 +329,8 @@ public class MainActivity extends AppCompatActivity {
                 gv.set_login_admin_number("");
                 gv.set_login_admin_name("");
                 gv.all_date_records.clear();
+                gv.set_sensor_charge_status(""); //sensor is using(charging = no)
+                gv.subject_sensor_charge_status.clear(); // for admin, (no sensor now)
 
                 //if (ID.equals("")){ gv.set_ID("S001"); } // 之後刪掉
                 //if (ID.equals("")){ gv.set_number("S001"); } // 之後刪掉
@@ -400,20 +402,30 @@ public class MainActivity extends AppCompatActivity {
                                 if(gv.is_admin == 0) {
                                     gv.set_number(j_obj.getString("subject_number"));
                                     gv.set_name(j_obj.getString("subject_name"));
+                                    //gv.set_name(j_obj.getString("charging"));
+                                    gv.set_sensor_charge_status(j_obj.getString("charging"));
+
+                                    //gv.set_sensor_status();
                                 }
                                 else{
+                                    //gv.set_login_admin_number(j_obj.getString("subjects"));
                                     //gv.set_login_admin_number(j_obj.getString("subjects"));
 
                                     JSONArray j_obj_p_list = j_obj.getJSONArray("subjects");
                                     //j_obj_p_list.get(0);
                                     gv.admin_manage_patient_number.clear();
                                     gv.admin_manage_patient_name.clear();
+                                    gv.admin_manage_patient_number.clear();
+
                                     gv.admin_manage_patient_name.add(""); //第一格沒東西
                                     gv.admin_manage_patient_number.add("");
+                                    gv.subject_sensor_charge_status.add(""); //第一格沒東西
+
 
                                     for(int i = 0; i < j_obj_p_list.length(); i++){
                                         gv.admin_manage_patient_name.add(j_obj_p_list.getJSONObject(i).getString("subject_name"));
                                         gv.admin_manage_patient_number.add(j_obj_p_list.getJSONObject(i).getString("subject_number"));
+                                        gv.subject_sensor_charge_status.add(j_obj_p_list.getJSONObject(i).getString("charging"));
                                     }
                                     JSONArray j_obj_a_list = j_obj.getJSONArray("admin_list");
                                     gv.admin_manage_admin_number.clear();

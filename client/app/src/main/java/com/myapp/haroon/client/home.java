@@ -43,7 +43,7 @@ public class home extends AppCompatActivity {
     private Button bn_logout;
 
     private Button bn_subject_name, bn_cnt_today;
-    private Button bn_sensor_status;
+    private Button bn_sensor_charge_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,27 +65,33 @@ public class home extends AppCompatActivity {
         tv_welcome_msg.setText("您現在登入" + login_admin_number + "-" + login_admin_name + "的帳號");
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
         tv_show_time.setText(timeStamp);
+        //tv_show_time.setText(gv.get_sensor_charge_status());
+
         tv_remind_words.setText(Html.fromHtml("點選"+"<u><font color='#8e00ad'>受試者姓名</font></u>"+
-                "即可進入紀錄畫面\n" +"點選紀錄筆數的"+
+                "即可進入紀錄畫面<br>" +"點選紀錄筆數的"+
                 "<u><font color='#0000ff'>數字</font></u>"+
-                "可以查看歷史紀錄"));
+                "可以查看歷史紀錄<br>" + "感測器充電前請點選" +
+                "<u><font color='#878787'>感測器狀態</font></u>" +
+                "，以記錄感測器充電開始時間<br>充電完成後請再次點選"+
+                "<u><font color='#ff0000'>感測器狀態</font></u>"+
+                "，以記錄感測器充電完成時間"));
 
         tv_subject_number = (TextView) findViewById(R.id.tv_subject_number);
         bn_subject_name = (Button) findViewById(R.id.bn_subject_name);
         bn_cnt_today = (Button) findViewById(R.id.bn_cnt_today);
-        bn_sensor_status = (Button) findViewById(R.id.bn_sensor_status);
+        bn_sensor_charge_status = (Button) findViewById(R.id.bn_sensor_charge_status);
 
         tv_subject_number.setText(gv.get_number());
         bn_subject_name.setText(gv.get_name());
         bn_cnt_today.setText("0");
 
-        if(gv.get_sensor_status()==0){  //0->使用，1->充電
-            bn_sensor_status.setText("使用中");
-            bn_sensor_status.setTextColor(Color.rgb(135,135,135));
+        if(gv.get_sensor_charge_status().equals("no")==true){  //使用中(未充電)
+            bn_sensor_charge_status.setText("使用中");
+            bn_sensor_charge_status.setTextColor(Color.rgb(135,135,135));
         }
         else{
-            bn_sensor_status.setText("充電中");
-            bn_sensor_status.setTextColor(Color.rgb(255,0,0));
+            bn_sensor_charge_status.setText("充電中");
+            bn_sensor_charge_status.setTextColor(Color.rgb(255,0,0));
         }
 
         final int[] today_rec_cnt = {0};
@@ -203,35 +209,38 @@ public class home extends AppCompatActivity {
             }
         });
 
-        bn_sensor_status.setOnClickListener(new View.OnClickListener() {
+        bn_sensor_charge_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(gv.get_sensor_status()==0){
-                    bn_sensor_status.setText("充電中");
-                    gv.set_sensor_status(1);
-                    bn_sensor_status.setTextColor(Color.rgb(255,0,0));
-
+                String pass_url = "0";
+                if(gv.get_sensor_charge_status().equals("no") == true){ //no->yes(使用中->充電中)
+                    bn_sensor_charge_status.setText("充電中");
+                    gv.set_sensor_charge_status("yes");
+                    bn_sensor_charge_status.setTextColor(Color.rgb(255,0,0));
+                    pass_url = "http://140.113.86.106:50059/charging";
                 }
                 else{
-                    bn_sensor_status.setText("使用中");
-                    gv.set_sensor_status(0);
-                    bn_sensor_status.setTextColor(Color.rgb(135,135,135));
+                    bn_sensor_charge_status.setText("使用中");
+                    gv.set_sensor_charge_status("no");
+                    bn_sensor_charge_status.setTextColor(Color.rgb(135,135,135));
+                    pass_url = "http://140.113.86.106:50059/uncharging";
                 }
 
                 /******************************
                  //send sensor status to server//
                  /******************************/
-                String postUrl = "http://140.113.86.106:50059/web2app";
+                //String postUrl = "http://140.113.86.106:50059/web2app";
+                String postUrl = pass_url;
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                         .build();
                 //設置傳送需求
                 JSONObject j_obj = new JSONObject();
                 try {
-                    j_obj.put("admin_number", gv.get_login_admin_number());
+                    //j_obj.put("admin_number", gv.get_login_admin_number());
                     j_obj.put("subject_number", gv.get_number());
-                    //timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
-                    //j_obj.put("date", timeStamp);
+                    String tmp_timeStamp = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
+                    j_obj.put("time", tmp_timeStamp);
                 } catch (JSONException e) {
 
                 }
@@ -254,35 +263,7 @@ public class home extends AppCompatActivity {
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        //取得回傳
-                        gv.all_date_records.clear();
-
-                        try{
-                            JSONObject j_obj = new JSONObject(response.body().string());
-
-                            for(int i = 0; i < j_obj.getJSONArray("records").length(); i++){
-                                JSONObject j_origin = j_obj.getJSONArray("records").getJSONObject(i);
-                                JSONObject j_tmp = new JSONObject();
-                                j_tmp.put("date", j_origin.getString("date"));
-                                j_tmp.put("record", j_origin.getJSONObject("content"));
-                                j_tmp.put("admin_number", j_origin.getString("admin_id"));
-                                j_tmp.put("subject_number", j_origin.getString("patient_id"));
-                                //改***************************************
-                                j_tmp.put("subject_name", j_origin.getString("subject_name"));
-                                j_tmp.put("admin_name", j_origin.getString("admin_name"));
-
-                                String timeStamp = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
-                                if(j_origin.getString("date").equals(timeStamp)){ //當天的
-                                    today_rec_cnt[0] += 1;
-                                }
-                                gv.all_date_records.add(j_tmp);
-                            }
-                            bn_cnt_today.setText(Integer.toString(today_rec_cnt[0]));
-
-                        }catch(JSONException e){
-                            //gv.set_name("POST回傳err：\n" + e.toString());
-                        }
-
+                        //nothing
                     }
                 });
                 /******************************

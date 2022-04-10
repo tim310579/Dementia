@@ -15,7 +15,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/bn_subject_sensor_status"
+                android:id="@+id/bn_subject_sensor_charge_status"
                 android:layout_width="90dp"
                 android:layout_height="25dp"
                 android:background="@drawable/table_frame"

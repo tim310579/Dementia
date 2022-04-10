@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.view.textclassifier.ConversationActions;
 import android.widget.TextView;
 
+import androidx.collection.ArraySet;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +31,9 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class GlobalVariable extends Application{
-    private int sensor_status;
+
+    private String sensor_charge_status; //no->using, yes->charging
+    public ArrayList<String> subject_sensor_charge_status = new ArrayList<String>();
 
     private String ID, name, password;
     private String number;
@@ -77,8 +81,8 @@ public class GlobalVariable extends Application{
 
 
     //設定變數值
-    public void set_sensor_status(int sensor_status){
-        this.sensor_status = sensor_status;
+    public void set_sensor_charge_status(String sensor_charge_status){
+        this.sensor_charge_status = sensor_charge_status;
     }
 
     public void set_ID(String ID){
@@ -162,8 +166,8 @@ public class GlobalVariable extends Application{
     //public void setport(String port){ this.port = port;}
 
     //取得 變數值
-    public int get_sensor_status() {
-        return sensor_status;
+    public String get_sensor_charge_status() {
+        return sensor_charge_status;
     }
 
 
