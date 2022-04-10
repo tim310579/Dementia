@@ -226,7 +226,7 @@
                             android:textSize="17dp"/>
 
                         <TextView
-                            android:layout_width="40dp"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
 
                             android:background="@drawable/table_frame"
