@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back2"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">>
+
+        <LinearLayout
+            android:id="@+id/titles"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="受試者編號"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_show_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="000"
+                    android:textColor="#ff0000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="受試者姓名"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_show_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="王X明"
+                    android:textColor="#ff0000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="現在時間:"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_show_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="2022/01/24 上午10:20"
+                    android:textColor="#ff0000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/bn_check_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="-60dp"
+                android:background="@drawable/button_check_history"
+                android:gravity="center"
+                android:text="查看歷史紀錄"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+            <TextView
+                android:id="@+id/hhh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="----------------------------------------------------------------------"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_problem_item_fall_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="跌倒"
+                android:textColor="#000000"
+                android:textSize="40dp"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_hhh2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="-----------------------------------"
+                android:textColor="#000000"
+                android:textSize="30dp"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_event_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="start"
+                android:text="#事件發生時間"
+                android:textColor="#000000"
+                android:textSize="23dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_begin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:text="開始:"
+                    android:textColor="#000000"
+                    android:textSize="23dp"
+                    android:layout_marginLeft="5dp" />
+                <Button
+                    android:id="@+id/bn_begin_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+
+                    android:text="日期"
+                    android:textColor="#000000"
+                    android:textSize="23dp"/>
+
+                <TextView
+                    android:id="@+id/tv_begin_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/chk_begin_morning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上午"
+                    android:paddingLeft="-5dp"
+
+                    android:textSize="23dp" />
+                <CheckBox
+                    android:id="@+id/chk_begin_afternoon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="下午"
+                    android:paddingLeft="-5dp"
+                    android:textSize="23dp" />
+                <EditText
+                    android:id="@+id/mEdit_begin_hr"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="#d7f4fc"
+                    android:textColor="#000000"
+                    android:textSize="23dp" />
+                <TextView
+                    android:id="@+id/tv_begin_hr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:text="時"
+                    android:textColor="#000000"
+                    android:textSize="23dp" />
+                <EditText
+                    android:id="@+id/mEdit_begin_min"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="#d7f4fc"
+                    android:textColor="#000000"
+                    android:textSize="23dp" />
+                <TextView
+                    android:id="@+id/tv_begin_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:text="分"
+                    android:textColor="#000000"
+                    android:textSize="23dp" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/chk_begin_now_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="開始為現在時間"
+                android:textSize="23dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:text="結束:"
+                    android:textColor="#000000"
+                    android:textSize="23dp"
+                    android:layout_marginLeft="5dp" />
+
+                <Button
+                    android:id="@+id/bn_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:text="日期"
+                    android:textColor="#000000"
+                    android:textSize="23dp"/>
+
+                <TextView
+                    android:id="@+id/tv_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/chk_end_morning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上午"
+                    android:paddingLeft="-5dp"
+                    android:textSize="23dp" />
+                <CheckBox
+                    android:id="@+id/chk_end_afternoon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="下午"
+                    android:paddingLeft="-5dp"
+                    android:textSize="23dp" />
+                <EditText
+                    android:id="@+id/mEdit_end_hr"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="#d7f4fc"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+                <TextView
+                    android:id="@+id/tv_end_hr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="start"
+                    android:text="時"
+                    android:textColor="#000000"
+                    android:textSize="23dp" />
+                <EditText
+                    android:id="@+id/mEdit_end_min"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="#d7f4fc"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+                <TextView
+                    android:id="@+id/tv_end_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="start"
+                    android:text="分"
+                    android:textColor="#000000"
+                    android:textSize="23dp" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/chk_end_now_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="結束為現在時間"
+                android:textSize="23dp" />
+
+            <TextView
+                android:id="@+id/tv_event_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="start"
+                android:text="#事件簡述"
+                android:textColor="#000000"
+                android:textSize="23dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/mEdit_event_description"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:background="@drawable/edit_bg"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="23dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bn_back"
+                    android:layout_width="120dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:background="@drawable/button_frame"
+                    android:text="回上一頁"
+                    android:textColor="#000000"
+                    android:textSize="25dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end">
+                <Button
+                    android:id="@+id/bn_next"
+                    android:layout_width="120dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_gravity="end"
+                    android:gravity="center"
+                    android:background="@drawable/button_frame"
+                    android:text="下一頁"
+                    android:textColor="#000000"
+                    android:textSize="25dp"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
