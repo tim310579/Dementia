@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                                     !TextUtils.isEmpty(new_pwd_again.getText()) && //有新密碼確認
                             new_pwd.getText().toString().equals(new_pwd_again.getText().toString())) //兩次密碼相同
                             {
-                                String postUrl = "http://140.113.86.106:50059/appchangepwd";
+                                String postUrl = "http://140.113.193.87:20059/appchangepwd";
                                 OkHttpClient client = new OkHttpClient().newBuilder()
                                         .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                                         .build();
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                             if(chk_recover_pwd.isChecked() && //有打勾
                                     !TextUtils.isEmpty(ID_or_name.getText())) //有帳號or name
                             {
-                                String postUrl = "http://140.113.86.106:50059/resetpwd";
+                                String postUrl = "http://140.113.193.87:20059/resetpwd";
                                 //String postUrl = "http://httpbin.org/post";
                                 OkHttpClient client = new OkHttpClient().newBuilder()
                                         .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!gv.haveInternet()){ //沒網路
                 }
                 else {
-                    String postUrl = "http://140.113.86.106:50059/applogin";
+                    String postUrl = "http://140.113.193.87:20059/applogin";
                     OkHttpClient client = new OkHttpClient().newBuilder()
                             .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                             .build();

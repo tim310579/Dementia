@@ -141,7 +141,7 @@ public class Subject_list extends AppCompatActivity {
         else {
             gv.all_date_records.clear();
             if(gv.all_date_records.size() == 0) {//沒有record時跟server要
-                String postUrl = "http://140.113.86.106:50059/web2app";
+                String postUrl = "http://140.113.193.87:20059/web2app";
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                         .build();

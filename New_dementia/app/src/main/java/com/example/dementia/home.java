@@ -100,7 +100,7 @@ public class home extends AppCompatActivity {
 
         }
         else {
-            String postUrl = "http://140.113.86.106:50059/web2app";
+            String postUrl = "http://140.113.193.87:20059/web2app";
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                     .build();
@@ -217,13 +217,13 @@ public class home extends AppCompatActivity {
                     bn_sensor_charge_status.setText("充電中");
                     gv.set_sensor_charge_status("yes");
                     bn_sensor_charge_status.setTextColor(Color.rgb(255,0,0));
-                    pass_url = "http://140.113.86.106:50059/charging";
+                    pass_url = "http://140.113.193.87:20059/charging";
                 }
                 else{
                     bn_sensor_charge_status.setText("使用中");
                     gv.set_sensor_charge_status("no");
                     bn_sensor_charge_status.setTextColor(Color.rgb(135,135,135));
-                    pass_url = "http://140.113.86.106:50059/uncharging";
+                    pass_url = "http://140.113.193.87:20059/uncharging";
                 }
 
                 /******************************

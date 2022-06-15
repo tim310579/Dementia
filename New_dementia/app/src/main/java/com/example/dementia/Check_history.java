@@ -336,7 +336,9 @@ public class Check_history extends AppCompatActivity {
                             gv.all_date_records.add(json_obj);
 
                             //***********************************上傳到server
-                            String postUrl = "http://140.113.86.106:50059/app2web";
+                            //String postUrl = "http://140.113.86.106:50059/app2web";
+                            String postUrl = "http://140.113.193.87:20059/app2web";
+                            //140.113.193.87:20059
                             //String postUrl = "http://httpbin.org/post";
                             //String postUrl = "https://jsonplaceholder.typicode.com/posts";
 
@@ -669,7 +671,8 @@ public class Check_history extends AppCompatActivity {
 
                         //***********************************上傳到server
                         //String postUrl = "http://140.113.86.106:50059/app2web";
-                        String postUrl = "http://httpbin.org/post";
+                        String postUrl = "http://140.113.193.87:20059/app2web";
+                        //String postUrl = "http://httpbin.org/post";
                         //String postUrl = "https://jsonplaceholder.typicode.com/posts";
 
                         OkHttpClient client = new OkHttpClient().newBuilder()

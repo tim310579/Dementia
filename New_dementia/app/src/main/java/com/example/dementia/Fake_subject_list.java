@@ -278,13 +278,15 @@ public class Fake_subject_list extends AppCompatActivity {
                         bn_subject_sensor_charge_status.get(i).setText("充電中");
                         bn_subject_sensor_charge_status.get(i).setTextColor(Color.rgb(255,0,0));
                         gv.subject_sensor_charge_status.set(i, "yes");
-                        pass_url = "http://140.113.86.106:50059/charging";
+                        //pass_url = "http://140.113.86.106:50059/charging";
+                        pass_url = "http://140.113.193.87:20059/charging";
+
                     }
                     else{
                         bn_subject_sensor_charge_status.get(i).setText("使用中");
                         bn_subject_sensor_charge_status.get(i).setTextColor(Color.rgb(135,135,135));
                         gv.subject_sensor_charge_status.set(i, "no");
-                        pass_url = "http://140.113.86.106:50059/uncharging";
+                        pass_url = "http://140.113.193.87:20059/uncharging";
                     }
 
                     /******************************

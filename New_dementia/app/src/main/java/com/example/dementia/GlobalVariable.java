@@ -298,7 +298,8 @@ public class GlobalVariable extends Application{
         if(!gv.haveInternet()){ //沒網路
         }
         else {
-            String postUrl = "http://140.113.86.106:50059/web2app";
+            String postUrl = "http://140.113.193.87:20059/web2app";
+
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                     .build();
