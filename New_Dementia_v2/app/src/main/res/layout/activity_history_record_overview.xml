@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back2"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">>
+
+        <LinearLayout
+            android:id="@+id/titles"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="受試者編號"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_show_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="000"
+                    android:textColor="#ff0000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="受試者姓名"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_show_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="王X明"
+                    android:textColor="#ff0000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="現在時間:"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_show_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="2022/01/24 上午10:20"
+                    android:textColor="#ff0000"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"/>
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/hhh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="----------------------------------------------------------------------"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_overview_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="紀錄日期2022/2/19"
+                android:textColor="#000000"
+                android:textSize="40dp"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_hhh2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="-----------------------------------"
+                android:textColor="#000000"
+                android:textSize="30dp"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_number_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:text="受試者編號 "
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/tv_name_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:text="受試者姓名 "
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_admin_name_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:text="紀錄者登入帳號 A005 陳季詩"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_margin="5dp"/>
+
+
+            <LinearLayout
+                android:id="@+id/layout_records_history"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:orientation="vertical"
+                >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bn_check_other_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:background="@drawable/button_frame"
+                    android:text=" 查看其他歷史紀錄 "
+                    android:textColor="#000000"
+                    android:textSize="25dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end">
+                    <Button
+                        android:id="@+id/bn_next_record"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="end"
+                        android:gravity="center"
+                        android:background="@drawable/button_frame"
+                        android:text=" 下一筆 "
+                        android:textColor="#000000"
+                        android:textSize="25dp"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_records_"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:orientation="vertical"
+                >
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/button_frame"
+                android:text="結束登出"
+                android:textColor="#000000"
+                android:textSize="30dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
