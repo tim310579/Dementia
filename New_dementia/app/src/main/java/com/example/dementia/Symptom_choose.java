@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,6 +33,7 @@ public class Symptom_choose extends AppCompatActivity {
     private String[] all_symptom = {"妄想", "幻覺", "激動/攻擊性", "憂鬱/情緒不佳",
             "焦慮", "昂然自得/欣快感", "冷漠/毫不在意", "言行失控", "暴躁易怒/情緒易變",
             "怪異動作", "睡眠/夜間行為", "食慾/飲食行為改變", "跌倒"};
+    private Button bn_fill_in_reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,9 @@ public class Symptom_choose extends AppCompatActivity {
         checkbox12.setOnCheckedChangeListener(checkBoxOnCheckedChange);
         checkbox13.setOnCheckedChangeListener(checkBoxOnCheckedChange);
 
+        bn_fill_in_reference = (Button) findViewById(R.id.bn_fill_in_reference);
+        bn_fill_in_reference.setOnClickListener(new ButtonClickListener());
+        bn_fill_in_reference.setText(Html.fromHtml("<u>"+"填答參考"+"</u>"));
 
         //-----------------------------------------------------
 
@@ -157,6 +162,11 @@ public class Symptom_choose extends AppCompatActivity {
                 case R.id.bn_next:
                     next_page();
                     break;
+
+                case R.id.bn_fill_in_reference:
+                    goto_fill_in_reference();
+                    break;
+
                 default:
                     break;
             }
@@ -164,6 +174,7 @@ public class Symptom_choose extends AppCompatActivity {
     }
     private void back_page(){new back_page().start();}
     private void next_page(){new next_page().start();}
+    private void goto_fill_in_reference(){new goto_fill_in_reference().start();}
     class back_page extends Thread{
         public back_page(){
         }
@@ -213,6 +224,28 @@ public class Symptom_choose extends AppCompatActivity {
                     break;
                 }
             }
+            //finish();
+        }
+    }
+    class goto_fill_in_reference extends Thread{
+        public goto_fill_in_reference(){
+        }
+        @Override
+        public void run(){
+            GlobalVariable gv = (GlobalVariable) getApplicationContext();
+            //if(gv.is_admin > 0) { //admin or 工作人員, 回受試者清單
+            Intent intent;
+            intent = new Intent();
+            intent.setClass(Symptom_choose.this  , Fill_in_reference.class);
+            startActivity(intent);
+            //}
+            //else {
+            // Intent intent;
+                //intent = new Intent();
+                //intent.setClass(Symptom_choose.this, MainActivity.class);
+                //intent.setClass(Symptom_choose.this, home.class);
+                //startActivity(intent);
+            //}
             //finish();
         }
     }

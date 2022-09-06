@@ -281,7 +281,7 @@ public class Record_overview extends AppCompatActivity {
                         //
                         //RequestParams params = new RequestParams();
 
-                        String postUrl = "http://140.113.86.106:50059/app2web";
+                        String postUrl = "http://140.113.193.87:20059/app2web";
                         //String postUrl = "http://httpbin.org/post";
                         //String postUrl = "https://jsonplaceholder.typicode.com/posts";
 

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back2"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
+
+        <LinearLayout
+            android:id="@+id/titles"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_fill_in_reference"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="填答參考"
+                android:textColor="#000000"
+                android:textSize="40dp"
+                android:paddingBottom="10dp"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <Button
+                android:id="@+id/bn_ref1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.妄想"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.幻覺"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.激動/攻擊性"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.憂鬱/情緒不佳"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5.焦慮"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6.昂然自得/欣快感"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.冷漠/毫不在意"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8.言行失控"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.暴躁易怒/情緒易變"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10.怪異動作"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11.睡眠/夜間行為"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_ref12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12.食慾/飲食行為改變"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+            <Button
+                android:id="@+id/bn_degree_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="嚴重度與困擾程度說明"
+                android:background="#00000000"
+                android:gravity="start"
+                android:textSize="23dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bn_back"
+                    android:layout_width="120dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:background="@drawable/button_frame"
+                    android:text="回上一頁"
+                    android:textColor="#000000"
+                    android:textSize="25dp"/>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

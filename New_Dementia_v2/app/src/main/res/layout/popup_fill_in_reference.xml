@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusable="true"
+        android:background="#3d3d99"
+        android:paddingLeft="3dp"
+        android:paddingTop="10dp"
+        android:paddingRight="3dp">
+
+        <TextView android:id="@+id/tv_ref_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:paddingBottom="10dp"
+            android:textSize="35dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:text="title"/>
+
+
+        <TextView android:id="@+id/tv_ref_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="23dp"
+            android:gravity="start"
+            android:layout_gravity="start"
+            android:textColor="#ffffff"
+            android:autoLink="all"
+            android:text="detail"/>
+
+        <Button
+            android:id="@+id/bn_check"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/button_frame"
+            android:text="確認"
+            android:textColor="#000000"
+            android:textSize="25dp"/>
+
+    </LinearLayout>
+</ScrollView>
