@@ -39,6 +39,8 @@ public class Fake_subject_list extends AppCompatActivity {
     /*********************************
     //Fake 頁面才是會顯示紀錄筆數的頁面*****
     *********************************/
+    private int MAX_SUBJECT=500;
+
     private TextView tv_welcome_msg, tv_show_time;
     private TextView tv_remind_words;
     private String login_admin_number, login_admin_name;
@@ -102,7 +104,7 @@ public class Fake_subject_list extends AppCompatActivity {
         //tv_remind_words_5.setText(Html.fromHtml("<u>"+"數字"+"</u>"));
 
         tab = (TableLayout) findViewById(R.id.table_subject_list);
-        final View[] view = new View[20]; //長直的
+
         //final String[] subject_numbers = {"", "S001", "S002", "S003", "S004", "S005"};
         //final String[] subject_names = {"", "王大明", "林大名", "張大名", "謝大名", "陳大名", "吳大名"};
 
@@ -115,8 +117,11 @@ public class Fake_subject_list extends AppCompatActivity {
 
         //final String[] admin_numbers = {"usr000000", "A002", "A003", "A004", "A005", "A006", "A007"};
         //final String[] admin_names = {"lin", "Vincent", "林孟辰", "Benny", "陳計師", "黃宇", "陳昱銘"};
-
-        final View[] view_k = new View[20]; //橫向
+        if (subject_numbers.size() > MAX_SUBJECT){
+            MAX_SUBJECT = MAX_SUBJECT*2+subject_numbers.size();
+        }
+        final View[] view = new View[MAX_SUBJECT]; //長直的
+        final View[] view_k = new View[100]; //橫向
         final int admin_number_cnt = 7;
 
         //for(int d = 0; d < int_history_cnt.length; d++){
@@ -159,6 +164,8 @@ public class Fake_subject_list extends AppCompatActivity {
 
         gv.set_admin_number(gv.get_login_admin_number());
         gv.set_admin_name(gv.get_login_admin_name());
+
+
         for (int j = 0; j < subject_numbers.size(); j++) {
             final int i = j;
 
