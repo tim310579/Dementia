@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Call;
@@ -33,7 +34,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class GlobalVariable extends Application{
 
     private String sensor_charge_status; //no->using, yes->charging
+    private String watch_charge_status; //no->using, yes->charging
+
     public ArrayList<String> subject_sensor_charge_status = new ArrayList<String>();
+    public ArrayList<String> subject_watch_charge_status = new ArrayList<String>();
 
     private String ID, name, password;
     private String number;
@@ -83,6 +87,9 @@ public class GlobalVariable extends Application{
     //設定變數值
     public void set_sensor_charge_status(String sensor_charge_status){
         this.sensor_charge_status = sensor_charge_status;
+    }
+    public void set_watch_charge_status(String watch_charge_status){
+        this.watch_charge_status = watch_charge_status;
     }
 
     public void set_ID(String ID){
@@ -168,6 +175,9 @@ public class GlobalVariable extends Application{
     //取得 變數值
     public String get_sensor_charge_status() {
         return sensor_charge_status;
+    }
+    public String get_watch_charge_status() {
+        return watch_charge_status;
     }
 
 
@@ -359,5 +369,7 @@ public class GlobalVariable extends Application{
             });
         }
     }
+
+
 
 }

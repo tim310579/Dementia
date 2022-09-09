@@ -43,7 +43,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import android.content.Intent;
 import android.widget.Toast;
@@ -61,6 +64,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -331,6 +335,8 @@ public class MainActivity extends AppCompatActivity {
                 gv.all_date_records.clear();
                 gv.set_sensor_charge_status(""); //sensor is using(charging = no)
                 gv.subject_sensor_charge_status.clear(); // for admin, (no sensor now)
+                gv.subject_watch_charge_status.clear(); // for admin, (no watch now)
+
 
                 //if (ID.equals("")){ gv.set_ID("S001"); } // 之後刪掉
                 //if (ID.equals("")){ gv.set_number("S001"); } // 之後刪掉
@@ -404,6 +410,7 @@ public class MainActivity extends AppCompatActivity {
                                     gv.set_name(j_obj.getString("subject_name"));
                                     //gv.set_name(j_obj.getString("charging"));
                                     gv.set_sensor_charge_status(j_obj.getString("charging"));
+                                    gv.set_watch_charge_status(j_obj.getString("watch_charging"));
 
                                     //gv.set_sensor_status();
                                 }
@@ -420,19 +427,50 @@ public class MainActivity extends AppCompatActivity {
                                     gv.admin_manage_patient_name.add(""); //第一格沒東西
                                     gv.admin_manage_patient_number.add("");
                                     gv.subject_sensor_charge_status.add(""); //第一格沒東西
+                                    gv.subject_watch_charge_status.add(""); //第一格沒東西
 
+                                    String[] subject_numbers = new String[j_obj_p_list.length()];
+                                    for(int j = 0; j < j_obj_p_list.length(); j++){
+                                        subject_numbers[j] = j_obj_p_list.getJSONObject(j).getString("subject_number");
 
+                                    }
+                                    Integer[] index_subject_numbers = new Integer[j_obj_p_list.length()];
+                                    List<String> sList = Arrays.asList(subject_numbers);
                                     for(int i = 0; i < j_obj_p_list.length(); i++){
+                                        //sList.indexOf(Collections.max(sList));
+                                        int tmp = sList.indexOf(Collections.max(sList));
+                                        index_subject_numbers[i] = sList.indexOf(Collections.max(sList));
+                                        sList.set(tmp, "AAAAA");
+                                    }
+                                    //gv.set_login_admin_name(Arrays.toString(index_subject_numbers));
+                                    //String[] countries = { "France", "Spain", ... };
+
+
+
+
+                                    for(int j = 0; j < j_obj_p_list.length(); j++){
+                                        //int i = j_obj_p_list.length()-j-1;
+                                        int i = index_subject_numbers[j];
                                         gv.admin_manage_patient_name.add(j_obj_p_list.getJSONObject(i).getString("subject_name"));
                                         gv.admin_manage_patient_number.add(j_obj_p_list.getJSONObject(i).getString("subject_number"));
                                         gv.subject_sensor_charge_status.add(j_obj_p_list.getJSONObject(i).getString("charging"));
+                                        gv.subject_watch_charge_status.add(j_obj_p_list.getJSONObject(i).getString("watch_charging"));
+
                                     }
                                     JSONArray j_obj_a_list = j_obj.getJSONArray("admin_list");
                                     gv.admin_manage_admin_number.clear();
                                     gv.admin_manage_admin_name.clear();
-                                    for(int i = 0; i < j_obj_a_list.length(); i++) {
-                                        gv.admin_manage_admin_number.add(j_obj_a_list.getJSONObject(i).getString("admin_id"));
-                                        gv.admin_manage_admin_name.add(j_obj_a_list.getJSONObject(i).getString("admin_name"));
+                                    for(int i = 0; i < j_obj_a_list.length(); i++) { //先放有KMU開頭的
+                                        if (j_obj_a_list.getJSONObject(i).getString("admin_id").toLowerCase().contains("kmu")==true) {
+                                            gv.admin_manage_admin_number.add(j_obj_a_list.getJSONObject(i).getString("admin_id"));
+                                            gv.admin_manage_admin_name.add(j_obj_a_list.getJSONObject(i).getString("admin_name"));
+                                        }
+                                    }
+                                    for(int i = 0; i < j_obj_a_list.length(); i++) { //再放其他的
+                                        if (j_obj_a_list.getJSONObject(i).getString("admin_id").toLowerCase().contains("kmu")==false) {
+                                            gv.admin_manage_admin_number.add(j_obj_a_list.getJSONObject(i).getString("admin_id"));
+                                            gv.admin_manage_admin_name.add(j_obj_a_list.getJSONObject(i).getString("admin_name"));
+                                        }
                                     }
 
                                     //gv.admin_manage_admin_number.add("usr000000");

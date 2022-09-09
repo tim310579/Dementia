@@ -70,6 +70,9 @@ public class Fake_subject_list extends AppCompatActivity {
     private ArrayList<Button> bn_subject_sensor_charge_status = new ArrayList<Button>();
     private ArrayList<String> subject_sensor_charge_status = new ArrayList<String>();
 
+    private ArrayList<Button> bn_subject_watch_charge_status = new ArrayList<Button>();
+    private ArrayList<String> subject_watch_charge_status = new ArrayList<String>();
+
     private ArrayList<ArrayList<Integer>> int_history_cnts = new ArrayList<>();
     private ArrayList<ArrayList<Button>> bn_history_cnts = new ArrayList<>();
 
@@ -111,6 +114,7 @@ public class Fake_subject_list extends AppCompatActivity {
         subject_numbers = gv.admin_manage_patient_number;
         subject_names = gv.admin_manage_patient_name;
         subject_sensor_charge_status = gv.subject_sensor_charge_status;
+        subject_watch_charge_status = gv.subject_watch_charge_status;
 
         admin_numbers = gv.admin_manage_admin_number;
         admin_names = gv.admin_manage_admin_name;
@@ -168,6 +172,7 @@ public class Fake_subject_list extends AppCompatActivity {
 
         for (int j = 0; j < subject_numbers.size(); j++) {
             final int i = j;
+            //final int i = subject_numbers.size()-j-1;
 
             LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view[i] = inflater.inflate(R.layout.every_subject_table_row , null, true); //讀取的page2.
@@ -178,6 +183,7 @@ public class Fake_subject_list extends AppCompatActivity {
             tv_subject_numbers.add((TextView) view[i].findViewById(R.id.tv_subject_number));
             bn_subject_names.add((Button) view[i].findViewById(R.id.bn_subject_name));
             bn_subject_sensor_charge_status.add((Button) view[i].findViewById(R.id.bn_subject_sensor_charge_status));
+            bn_subject_watch_charge_status.add((Button) view[i].findViewById(R.id.bn_subject_watch_charge_status));
 
             //tv_subject_number[i].setText(subject_numbers.get(i));
             //bn_subject_name[i].setText(subject_names.get(i));
@@ -186,19 +192,30 @@ public class Fake_subject_list extends AppCompatActivity {
             bn_subject_names.get(i).setText(subject_names.get(i));
             //bn_subject_sensor_charge_status.get(i).setText(subject_sensor_charge_status.get(i));//subject_names.get(i));
 
-            if(subject_sensor_charge_status.get(i).equals("no")==true){  //使用中(未充電)
-                bn_subject_sensor_charge_status.get(i).setText("使用中");
+            if(subject_sensor_charge_status.get(i).equals("no")==true){  //使用中(未充電，已取下)
+                bn_subject_sensor_charge_status.get(i).setText("配戴中");
                 bn_subject_sensor_charge_status.get(i).setTextColor(Color.rgb(135,135,135));
             }
             else{
-                bn_subject_sensor_charge_status.get(i).setText("充電中");
+                bn_subject_sensor_charge_status.get(i).setText("已取下");
                 bn_subject_sensor_charge_status.get(i).setTextColor(Color.rgb(255,0,0));
+            }
+
+            if(subject_watch_charge_status.get(i).equals("no")==true){  //使用中(未充電，已取下)
+                bn_subject_watch_charge_status.get(i).setText("配戴中");
+                bn_subject_watch_charge_status.get(i).setTextColor(Color.rgb(135,135,135));
+            }
+            else{
+                bn_subject_watch_charge_status.get(i).setText("已取下");
+                bn_subject_watch_charge_status.get(i).setTextColor(Color.rgb(255,0,0));
             }
 
 
             if(i == 0){
                 bn_subject_sensor_charge_status.get(i).setText("");
                 bn_subject_sensor_charge_status.get(i).setEnabled(false);
+                bn_subject_watch_charge_status.get(i).setText("");
+                bn_subject_watch_charge_status.get(i).setEnabled(false);
             }
             if(subject_names.get(i).equals("")){
                 //bn_subject_name[i].setEnabled(false);
@@ -281,8 +298,8 @@ public class Fake_subject_list extends AppCompatActivity {
                 public void onClick(View view_) {
                     String pass_url = "0";
                     GlobalVariable gv = (GlobalVariable) getApplicationContext();
-                    if(bn_subject_sensor_charge_status.get(i).getText().toString().equals("使用中") == true){ ////no->yes(使用中->充電中)
-                        bn_subject_sensor_charge_status.get(i).setText("充電中");
+                    if(bn_subject_sensor_charge_status.get(i).getText().toString().equals("配戴中") == true){ ////no->yes(配戴中->(已取下)充電中)
+                        bn_subject_sensor_charge_status.get(i).setText("已取下");
                         bn_subject_sensor_charge_status.get(i).setTextColor(Color.rgb(255,0,0));
                         gv.subject_sensor_charge_status.set(i, "yes");
                         //pass_url = "http://140.113.86.106:50059/charging";
@@ -290,7 +307,7 @@ public class Fake_subject_list extends AppCompatActivity {
 
                     }
                     else{
-                        bn_subject_sensor_charge_status.get(i).setText("使用中");
+                        bn_subject_sensor_charge_status.get(i).setText("配戴中");
                         bn_subject_sensor_charge_status.get(i).setTextColor(Color.rgb(135,135,135));
                         gv.subject_sensor_charge_status.set(i, "no");
                         pass_url = "http://140.113.193.87:20059/uncharging";
@@ -341,6 +358,87 @@ public class Fake_subject_list extends AppCompatActivity {
                             //startActivity(intent);
                         }
                     });
+                    /******************************
+                     //send sensor status to server//
+                     /******************************/
+
+
+                    //gv.set_number(subject_numbers.get(i));
+                    //gv.set_name(subject_names.get(i));
+
+                    //Intent intent = new Intent();
+                    //intent.setClass(Fake_subject_list.this, Symptom_choose.class);
+                    //startActivity(intent);
+                }
+            });
+
+            bn_subject_watch_charge_status.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view_) {
+                    String pass_url = "0";
+                    GlobalVariable gv = (GlobalVariable) getApplicationContext();
+                    if(bn_subject_watch_charge_status.get(i).getText().toString().equals("配戴中") == true){ ////no->yes(配戴中->(已取下)充電中)
+                        bn_subject_watch_charge_status.get(i).setText("已取下");
+                        bn_subject_watch_charge_status.get(i).setTextColor(Color.rgb(255,0,0));
+                        gv.subject_watch_charge_status.set(i, "yes");
+                        //pass_url = "http://140.113.86.106:50059/charging";
+                        pass_url = "http://140.113.193.87:20059/watch_charging";
+
+                    }
+                    else{
+                        bn_subject_watch_charge_status.get(i).setText("配戴中");
+                        bn_subject_watch_charge_status.get(i).setTextColor(Color.rgb(135,135,135));
+                        gv.subject_watch_charge_status.set(i, "no");
+                        pass_url = "http://140.113.193.87:20059/watch_uncharging";
+                    }
+
+                    /******************************
+                     //send sensor status to server//
+                     /******************************/
+                    //String postUrl = "http://140.113.86.106:50059/web2app";
+
+                    String postUrl = pass_url;
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                            .build();
+                    //設置傳送需求
+                    JSONObject j_obj = new JSONObject();
+                    try {
+                        //j_obj.put("admin_number", gv.get_login_admin_number());
+                        //j_obj.put("subject_number", gv.get_number());
+                        j_obj.put("subject_number", subject_numbers.get(i));
+                        String tmp_timeStamp = new SimpleDateFormat("yyyy/MM/dd ahh:mm:ss").format(Calendar.getInstance().getTime());
+                        j_obj.put("time", tmp_timeStamp);
+                    } catch (JSONException e) {
+
+                    }
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                    RequestBody body = RequestBody.create(JSON, j_obj.toString());
+
+                    Request request = new Request.Builder()
+                            .url(postUrl)
+                            .addHeader("Accept-Encoding", "gzip, deflate, br")
+                            .post(body)
+                            .build();
+                    //設置回傳
+                    Call call = client.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            //如果傳送過程有發生錯誤
+                            //gv.set_name(e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            //nothing
+                            //tv_show_time.setText("passed");
+                            //Intent intent = new Intent();
+                            //intent.setClass(Fake_subject_list.this, Fake_subject_list.class);
+                            //startActivity(intent);
+                        }
+                    });
+
                     /******************************
                      //send sensor status to server//
                      /******************************/
