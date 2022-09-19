@@ -176,7 +176,8 @@ public class Subject_list extends AppCompatActivity {
                 Call call = client.newCall(request);
                 call.enqueue(new Callback() {
                     @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {//如果傳送過程有發生錯誤
+                        //如果傳送過程有發生錯誤
                         gv.set_login_admin_name(e.getMessage());
 
                         Intent intent = new Intent();
