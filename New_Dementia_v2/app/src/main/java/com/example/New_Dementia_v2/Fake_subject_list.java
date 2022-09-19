@@ -99,11 +99,12 @@ public class Fake_subject_list extends AppCompatActivity {
         tv_remind_words.setText(Html.fromHtml("點選"+"<u><font color='#8e00ad'>受試者姓名</font></u>"+
                 "即可進入紀錄畫面<br>" +"點選紀錄筆數的"+
                 "<u><font color='#0000ff'>數字</font></u>"+
-                "可以查看歷史紀錄<br>" + "感測器充電前請點選" +
-                "<u><font color='#878787'>感測器狀態</font></u>" +
-                "，以記錄感測器充電開始時間<br>充電完成後請再次點選"+
-                "<u><font color='#ff0000'>感測器狀態</font></u>"+
-                "，以記錄感測器充電完成時間"));
+                "可以查看歷史紀錄<br>" + "感測器或手錶配戴時請確認狀態為" +
+                "<u><font color='#878787'>配戴中</font></u>" +
+                "，以記錄感測器或手錶配戴時間"+
+                "<br>感測器或手錶取下後請確認狀態為"+
+                "<u><font color='#ff0000'>已取下</font></u>"+
+                "，以記錄感測器或手錶取下時間"));
         //tv_remind_words_5.setText(Html.fromHtml("<u>"+"數字"+"</u>"));
 
         tab = (TableLayout) findViewById(R.id.table_subject_list);

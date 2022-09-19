@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -139,12 +140,20 @@ public class Subject_list extends AppCompatActivity {
 
         }
         else {
+            //Intent intent = new Intent();
+            //intent.setClass(Subject_list.this, Fake_subject_list.class);
+            //startActivity(intent);
+
             gv.all_date_records.clear();
             if(gv.all_date_records.size() == 0) {//沒有record時跟server要
                 String postUrl = "http://140.113.193.87:20059/web2app";
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                        .connectTimeout(30, TimeUnit.SECONDS)
+                        .writeTimeout(30, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
                         .build();
+
                 //設置傳送需求
                 final JSONObject j_obj = new JSONObject();
                 try {
@@ -168,15 +177,23 @@ public class Subject_list extends AppCompatActivity {
                 call.enqueue(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        gv.set_login_admin_name(e.getMessage());
+
+                        Intent intent = new Intent();
+                        intent.setClass(Subject_list.this, Fake_subject_list.class);
+                        startActivity(intent);
+                        Subject_list.this.finish();
                         //如果傳送過程有發生錯誤
-                        //gv.set_name(e.getMessage());
+
                     }
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                         //取得回傳
 
+
                         try {
+
                             JSONObject j_obj = new JSONObject(response.body().string());
                             //JSONObject j_arr = new JSONObject(j_obj.getJSONObject("records"));
                             //gv.set_name("POST回傳：\n" +j_obj.getJSONArray("records").getJSONObject(0).toString());
@@ -184,7 +201,9 @@ public class Subject_list extends AppCompatActivity {
                             //gv.set_number(Integer.toString(j_obj.getJSONArray("records").length()));
                             //j_obj.getJSONArray("records").length();
                             //gv.set_name(j_obj.toString());
+
                             for (int i = 0; i < j_obj.getJSONArray("records").length(); i++) {
+                            //for (int i = 0; i < 5; i++) {
                                 JSONObject j_origin = j_obj.getJSONArray("records").getJSONObject(i);
                                 JSONObject j_tmp = new JSONObject();
                                 j_tmp.put("date", j_origin.getString("date"));
@@ -211,10 +230,14 @@ public class Subject_list extends AppCompatActivity {
                         //gv.set_number(Integer.toString(record_cnt[0]));
                         //gv.set_login_admin_number(Integer.toString(gv.all_date_records.size()));
                         //gv.set_login_admin_name(gv.all_date_records.toString());
+
+
                         Intent intent = new Intent();
                         intent.setClass(Subject_list.this, Fake_subject_list.class);
                         startActivity(intent);
                         Subject_list.this.finish();
+
+
 
                         //gv.all_date_records.add(j_obj);
 
